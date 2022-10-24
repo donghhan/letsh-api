@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+from common.models import *
 
 
 class MyUserManager(BaseUserManager):
@@ -22,7 +23,7 @@ class MyUserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, TimeStampModel):
 
     """Custom User Definition Model"""
 
