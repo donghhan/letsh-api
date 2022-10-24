@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-PROJECT_APPS = ["users.apps.UsersConfig"]
+PROJECT_APPS = ["users.apps.UsersConfig", "common.apps.CommonConfig"]
 
 DJANGO_BUILTIN_APPS = [
     "django.contrib.admin",
