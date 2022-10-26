@@ -4,6 +4,17 @@ from common.models import *
 from users.models import *
 
 
+class Amenity(TimeStampModel, RoomOptions):
+
+    """Amenity Model Definition"""
+
+    pass
+
+    class Meta:
+        verbose_name = _("Amenity")
+        verbose_name_plural = _("Amenities")
+
+
 class Room(TimeStampModel):
 
     """Rooms Model Definition"""
@@ -14,6 +25,9 @@ class Room(TimeStampModel):
     )
     maximum_guests = models.PositiveSmallIntegerField(
         verbose_name=_("Maximum Number of Guests"), default=1
+    )
+    number_of_beds = models.PositiveSmallIntegerField(
+        verbose_name=_("Number of beds"), default=1
     )
     number_of_bedrooms = models.PositiveSmallIntegerField(
         verbose_name=_("Number of Bedrooms"), default=1
@@ -35,9 +49,10 @@ class Room(TimeStampModel):
         blank=True,
         verbose_name=_("Owner"),
     )
+    amenities = models.ManyToManyField("accomodations.Amenity")
 
     def __str__(self):
-        pass
+        return self.name
 
     class Meta:
         verbose_name = _("Room")
