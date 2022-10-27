@@ -42,6 +42,9 @@ class Room(TimeStampModel):
         verbose_name=_("Free Internet"), default=False
     )
     is_free_parking = models.BooleanField(verbose_name=_("Free Parking"), default=False)
+    is_free_booking_cancelation = models.BooleanField(
+        verbose_name=_("Free Booking Cancelation"), default=True
+    )
     owner = models.ForeignKey(
         "users.User",
         on_delete=models.CASCADE,
