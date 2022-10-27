@@ -56,7 +56,6 @@ class User(AbstractBaseUser, TimeStampModel):
         THB = "thb", _("Thai Baht")
 
     email = models.EmailField(
-        primary_key=True,
         unique=True,
         max_length=100,
         help_text=_("Email address must be unique and valid."),
