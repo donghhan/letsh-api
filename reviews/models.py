@@ -12,10 +12,18 @@ class Review(models.Model):
     review = models.TextField()
     cleanliness = models.PositiveSmallIntegerField(null=True, blank=True)
     user = models.ForeignKey(
-        "users.User", on_delete=models.DO_NOTHING, null=True, blank=True
+        "users.User",
+        on_delete=models.DO_NOTHING,
+        null=True,
+        blank=True,
+        related_name="reviews",
     )
     room = models.ForeignKey(
-        "accomodations.Room", on_delete=models.CASCADE, null=True, blank=True
+        "accomodations.Room",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="reviews",
     )
 
     def __str__(self):

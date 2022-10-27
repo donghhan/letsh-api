@@ -51,8 +51,9 @@ class Room(TimeStampModel):
         null=True,
         blank=True,
         verbose_name=_("Owner"),
+        related_name="rooms",
     )
-    amenities = models.ManyToManyField("accomodations.Amenity")
+    amenities = models.ManyToManyField("accomodations.Amenity", related_name="rooms")
 
     def __str__(self):
         return self.name
