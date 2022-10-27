@@ -35,6 +35,7 @@ PROJECT_APPS = [
     "users.apps.UsersConfig",
     "common.apps.CommonConfig",
     "accomodations.apps.AccomodationsConfig",
+    "reviews.apps.ReviewsConfig",
 ]
 
 DJANGO_BUILTIN_APPS = [
