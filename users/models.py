@@ -1,3 +1,4 @@
+import re
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.core.exceptions import ValidationError
@@ -80,6 +81,13 @@ class User(AbstractBaseUser, TimeStampModel):
             "null": _("You should provide your last name."),
         },
     )
+    nickname = models.CharField(
+        max_length=20,
+        verbose_name=_("Nickname"),
+        help_text=_(
+            "Can only include lower/uppercases numbers, . and _. This nickname will be shown on the profile of the host. If not specified, first name field would appear."
+        ),
+    )
     phone_number = models.CharField(
         max_length=50,
         verbose_name=_("Phone Number"),
@@ -118,7 +126,7 @@ class User(AbstractBaseUser, TimeStampModel):
     REQUIRED_FIELDS = ["first_name", "last_name"]
 
     def __str__(self):
-        return self.email
+        return f"{self.first_name} ({self.email})"
 
     def has_perm(self, perm, obj=None):
         return True
@@ -145,6 +153,33 @@ class User(AbstractBaseUser, TimeStampModel):
             raise ValidationError(
                 {
                     "last_name": _("Last name can only include alphabets."),
+                }
+            )
+        # Nickname validation
+        pattern = "(\s)\1|[\[$&+,:;=?@#|'<>-^*()%!\]\{\}\/]"
+        invalid_nickname = re.findall(pattern, self.nickname)
+        if len(invalid_nickname) != 0:
+            raise ValidationError(
+                {
+                    "nickname": _(
+                        "Nickname should contain only lower/uppercase of alphabets, numbers, . and _."
+                    )
+                }
+            )
+        elif len(self.nickname) < 2:
+            raise ValidationError(
+                {
+                    "nickname": _(
+                        "Nickname is too short. Should be no less than 2 characters."
+                    )
+                }
+            )
+        elif len(self.nickname) > 10:
+            raise ValidationError(
+                {
+                    "nickname": _(
+                        "Nickname is too long. Should be no less than 10 characters."
+                    )
                 }
             )
 
