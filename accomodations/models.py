@@ -56,8 +56,29 @@ class Room(TimeStampModel):
     )
     amenities = models.ManyToManyField("accomodations.Amenity", related_name="rooms")
 
-    def __str__(self):
-        return self.name
+    def __str__(room):
+        return room.name
+
+    # Review score of customers
+    """
+    QuerySet is lazy, which is we are going to use only some of them.
+    Intead of getting all QuerySet data, 
+    """
+
+    def rating(room):
+        number_of_reviews = room.reviews.count()
+        if number_of_reviews == 0:
+            return _("No Reviews")
+        else:
+            total_rating = 0
+            print(room.reviews.all().values("cleanliness", "communication", "accuracy"))
+            for review in room.reviews.all().values(
+                "cleanliness", "communication", "accuracy"
+            ):
+                total_rating += (
+                    review["cleanliness"] + review["communication"] + review["accuracy"]
+                )
+            return round(total_rating / 3)
 
     class Meta:
         verbose_name = _("Room")
