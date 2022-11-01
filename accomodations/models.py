@@ -71,7 +71,6 @@ class Room(TimeStampModel):
             return _("No Reviews")
         else:
             total_rating = 0
-            print(room.reviews.all().values("cleanliness", "communication", "accuracy"))
             for review in room.reviews.all().values(
                 "cleanliness", "communication", "accuracy"
             ):
@@ -86,11 +85,12 @@ class Room(TimeStampModel):
         db_table = "rooms"
 
 
-class Amenity(TimeStampModel, RoomOptions):
+class Amenity(models.Model):
 
     """Amenity Model Definition"""
 
-    pass
+    name = models.CharField(max_length=200)
+    description = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name = _("Amenity")
