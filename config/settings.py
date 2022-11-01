@@ -36,6 +36,9 @@ PROJECT_APPS = [
     "common.apps.CommonConfig",
     "accomodations.apps.AccomodationsConfig",
     "reviews.apps.ReviewsConfig",
+    "favourites.apps.FavouritesConfig",
+    "bookings.apps.BookingsConfig",
+    "user_media.apps.UserMediaConfig",
 ]
 
 DJANGO_BUILTIN_APPS = [
@@ -47,7 +50,7 @@ DJANGO_BUILTIN_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRDPARTY_APPS = []
+THIRDPARTY_APPS = ["rest_framework"]
 
 INSTALLED_APPS = DJANGO_BUILTIN_APPS + THIRDPARTY_APPS + PROJECT_APPS
 
