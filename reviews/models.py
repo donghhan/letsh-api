@@ -1,11 +1,11 @@
-from django.db import models
+from django.db.models import Model, QuerySet, Q, Manager
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
 from users.models import *
 from accomodations.models import *
 
 
-class Review(models.Model):
+class Review(Model):
 
     """Review Model Definition"""
 
