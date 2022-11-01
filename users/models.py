@@ -12,6 +12,7 @@ class MyUserManager(BaseUserManager):
         email,
         first_name,
         last_name,
+        nickname,
         password=None,
     ):
         if not email:
@@ -21,19 +22,20 @@ class MyUserManager(BaseUserManager):
             email=self.normalize_email(email),
             first_name=first_name,
             last_name=last_name,
+            nickname=nickname,
         )
-        user.first_name = first_name
-        user.last_name = last_name
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, first_name, last_name, password=None):
+    def create_superuser(self, email, first_name, last_name, nickname, password=None):
         user = self.create_user(
-            email, password=password, first_name=first_name, last_name=last_name
+            email,
+            first_name=first_name,
+            last_name=last_name,
+            nickname=nickname,
+            password=password,
         )
-        user.first_name = first_name
-        user.last_name = last_name
         user.is_admin = True
         user.save(using=self._db)
         return user
@@ -93,7 +95,6 @@ class User(AbstractBaseUser, TimeStampModel):
         verbose_name=_("Phone Number"),
         null=True,
         blank=True,
-        editable=False,
     )
     profile_photo = models.ImageField(
         null=True, blank=True, verbose_name=_("Profile Photo")
@@ -123,7 +124,7 @@ class User(AbstractBaseUser, TimeStampModel):
     objects = MyUserManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["first_name", "last_name"]
+    REQUIRED_FIELDS = ["first_name", "last_name", "nickname"]
 
     def __str__(self):
         return f"{self.first_name} ({self.email})"
@@ -156,9 +157,9 @@ class User(AbstractBaseUser, TimeStampModel):
                 }
             )
         # Nickname validation
-        pattern = "(\s)\1|[\[$&+,:;=?@#|'<>-^*()%!\]\{\}\/]"
-        invalid_nickname = re.findall(pattern, self.nickname)
-        if len(invalid_nickname) != 0:
+        unallowed_specials = "[\[$&+,:;=?@#|'<>-^*()%!\]\{\}\/]"
+        invalid_special = re.findall(unallowed_specials, self.nickname)
+        if len(invalid_special) != 0:
             raise ValidationError(
                 {
                     "nickname": _(
