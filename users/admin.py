@@ -4,15 +4,14 @@ from .models import *
 
 
 @admin.action(description="Convert activity of selected users.")
-def set_activity(modeladmin, request, rooms):
-    for room in rooms.all():
-        print(room.is_active)
-        if room.is_active == False:
-            room.is_active = True
-            room.save()
+def set_activity(modeladmin, request, users):
+    for user in users.all():
+        if user.is_active == False:
+            user.is_active = True
+            user.save()
         else:
-            room.is_active = False
-            room.save()
+            user.is_active = False
+            user.save()
 
 
 @admin.register(User)
