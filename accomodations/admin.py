@@ -7,7 +7,7 @@ class AmenityAdmin(admin.ModelAdmin):
 
     """Amenity Admin Definition"""
 
-    pass
+    list_display = ("name", "description")
 
 
 @admin.register(Room)
@@ -15,12 +15,26 @@ class RoomAdmin(admin.ModelAdmin):
 
     """Room Admin Definition"""
 
-    list_display = ("name", "room_category", "price_per_night", "owner")
+    @admin.action(description="Mark selected users as inactive")
+    def make_inactive(modeladmin, request, queryset):
+        queryset.update(is_active=False)
+
+    list_display = ("name", "room_category", "price_per_night", "owner", "rating")
     list_per_page = 50
+    empty_value_display = "(unknown)"
+    search_fields = ("name",)
     fieldsets = (
         (
             None,
-            {"fields": ("name", "room_category", "price_per_night", "maximum_guests")},
+            {
+                "fields": (
+                    "name",
+                    "room_category",
+                    "price_per_night",
+                    "maximum_guests",
+                    "owner",
+                )
+            },
         ),
         (
             "Freebies",
@@ -46,3 +60,4 @@ class RoomAdmin(admin.ModelAdmin):
             },
         ),
     )
+    actions = [make_inactive]
