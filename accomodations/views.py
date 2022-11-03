@@ -1,9 +1,10 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_204_NO_CONTENT
-from rest_framework.exceptions import NotFound, NotAuthenticated
+from rest_framework.exceptions import NotFound, NotAuthenticated, ParseError
 from .models import *
 from .serializers import *
+from categories.models import Category
 
 
 class AllAmenitiesView(APIView):
@@ -55,7 +56,36 @@ class AllRoomsView(APIView):
             serializer = RoomDetailSerializer(data=request.data)
 
             if serializer.is_valid():
-                new_room = serializer.save(owner=request.user)
+                # Grab that category through request.data
+                category_pk = request.data.get("category")
+                if not category_pk:
+                    raise ParseError("Category is not found.")
+                # Search that category from DB
+                try:
+                    category = Category.objects.get(pk=category_pk)
+                    # Throw error if user tries to connect accomodations with invalid categories (parking & mobile)
+                    if (
+                        category.kind == Category.CategoryKindChoices.PARKING
+                        or category.kind == Category.CategoryKindChoices.MOBILE
+                    ):
+                        raise ParseError(
+                            "Category should be neither parking nor mobile."
+                        )
+                except Category.DoesNotExist:
+                    raise ParseError
+
+                new_room = serializer.save(
+                    owner=request.user, category=category
+                )  # Send that category into serializer.save()
+
+                amenities = request.data.get("amenities")
+                for amenity_pk in amenities:
+                    try:
+                        amenity = Amenity.objects.get(pk=amenity_pk)
+                    except Amenity.DoesNotExist:
+                        raise ParseError("Amenity is not found.")
+                    new_room.amenities.add(amenity)
+
                 serializer = RoomDetailSerializer(new_room)
                 return Response(serializer.data)
             else:

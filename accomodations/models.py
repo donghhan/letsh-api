@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from common.models import *
+from categories.models import Category
 from users.models import *
 
 
@@ -8,19 +9,7 @@ class Room(TimeStampModel):
 
     """Rooms Model Definition"""
 
-    class RoomCategoryChoices(models.TextChoices):
-        HOTEL = "hotel", _("Hotel")
-        HOUSE = "house", _("House")
-        APARTMENT = "apartment", _("Apartment")
-        GUESTHOUSE = "guesthouse", _("Guesthouse")
-
     name = models.CharField(max_length=200, verbose_name=_("Accomodation Name"))
-    room_category = models.CharField(
-        max_length=20,
-        verbose_name=_("Room Category"),
-        choices=RoomCategoryChoices.choices,
-        default=RoomCategoryChoices.HOTEL,
-    )
     price_per_night = models.DecimalField(
         max_digits=10, decimal_places=2, verbose_name=_("Price Per Night")
     )
@@ -55,6 +44,9 @@ class Room(TimeStampModel):
         related_name="rooms",
     )
     amenities = models.ManyToManyField("accomodations.Amenity", related_name="rooms")
+    category = models.ForeignKey(
+        "categories.Category", on_delete=models.SET_NULL, null=True, blank=True
+    )
 
     def __str__(room):
         return room.name
