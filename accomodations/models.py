@@ -60,7 +60,7 @@ class Room(TimeStampModel):
     def rating(room):
         number_of_reviews = room.reviews.count()
         if number_of_reviews == 0:
-            return _("No Reviews")
+            return 0
         else:
             total_rating = 0
             for review in room.reviews.all().values(
