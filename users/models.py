@@ -1,22 +1,30 @@
 import re
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from common.models import *
 
 
 class MyUserManager(BaseUserManager):
+    use_in_migrations = True
+
     def create_user(
         self,
         email,
         first_name,
         last_name,
         nickname,
-        password=None,
+        password,
     ):
         if not email:
             raise ValueError(_("You must provide a valid email address."))
+        if not password:
+            raise ValueError(_("You must provide a valid password."))
 
         user = self.model(
             email=self.normalize_email(email),
@@ -28,7 +36,7 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, first_name, last_name, nickname, password=None):
+    def create_superuser(self, email, first_name, last_name, nickname, password):
         user = self.create_user(
             email,
             first_name=first_name,
