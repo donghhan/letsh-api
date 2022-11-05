@@ -1,6 +1,7 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from .models import *
 from users.serializers import *
+from reviews.serializers import *
 from categories.serializers import *
 
 
