@@ -7,10 +7,14 @@ class Photo(TimeStampModel):
 
     """Photo Model Definition"""
 
-    file = models.ImageField(null=True, blank=True)
+    file = models.URLField()
     caption = models.CharField(max_length=250, null=True, blank=True)
     room = models.ForeignKey(
-        "accomodations.Room", on_delete=models.CASCADE, null=True, blank=True
+        "accomodations.Room",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="photos",
     )
 
     def __str__(self):
@@ -26,10 +30,14 @@ class Video(TimeStampModel):
 
     """Video Model Definition"""
 
-    file = models.FileField(null=True, blank=True)
+    file = models.URLField()
     caption = models.CharField(max_length=250, null=True, blank=True)
     room = models.OneToOneField(
-        "accomodations.Room", on_delete=models.CASCADE, null=True, blank=True
+        "accomodations.Room",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="videos",
     )
 
     def __str__(self):

@@ -5,6 +5,7 @@ urlpatterns = [
     path("", AllRoomsView.as_view()),
     path("<int:pk>/", RoomDetailView.as_view()),
     path("<int:pk>/reviews", RoomReviewView.as_view()),
+    path("<int:pk>/photos", RoomPhotoView.as_view()),
     path("amenities/", AllAmenitiesView.as_view()),
     path("amenities/<int:pk>", AmenityDetailView.as_view()),
 ]
