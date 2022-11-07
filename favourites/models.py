@@ -10,7 +10,11 @@ class Favourites(TimeStampModel):
     name = models.CharField(max_length=200)
     rooms = models.ManyToManyField("accomodations.Room")
     user = models.ForeignKey(
-        "users.User", on_delete=models.CASCADE, null=True, blank=True
+        "users.User",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="favourites",
     )
 
     def __str__(self):
