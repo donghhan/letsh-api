@@ -25,6 +25,12 @@ class MyUserManager(BaseUserManager):
             raise ValueError(_("You must provide a valid email address."))
         if not password:
             raise ValueError(_("You must provide a valid password."))
+        if not first_name:
+            raise ValueError(_("You must provide your first name."))
+        if not last_name:
+            raise ValueError(_("You must provide your last name."))
+        if not nickname:
+            raise ValueError(_("You must provide your nickname for using service."))
 
         user = self.model(
             email=self.normalize_email(email),
