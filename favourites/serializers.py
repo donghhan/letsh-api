@@ -8,4 +8,4 @@ class AllFavouritesSerializer(ModelSerializer):
 
     class Meta:
         model = Favourites
-        fields = ["name", "rooms"]
+        fields = ["pk", "name", "rooms"]

@@ -84,17 +84,17 @@ class User(AbstractBaseUser, TimeStampModel):
     first_name = models.CharField(
         max_length=100,
         verbose_name=_("First Name"),
-        blank=True,
         error_messages={
             "null": _("You should provide your first name."),
+            "blank": _("First name cannot be empty."),
         },
     )
     last_name = models.CharField(
         max_length=100,
         verbose_name=_("Last Name"),
-        blank=True,
         error_messages={
             "null": _("You should provide your last name."),
+            "blank": _("Last name cannot be empty."),
         },
     )
     nickname = models.CharField(
@@ -103,6 +103,10 @@ class User(AbstractBaseUser, TimeStampModel):
         help_text=_(
             "Can only include lower/uppercases numbers, . and _. This nickname will be shown on the profile of the host. If not specified, first name field would appear."
         ),
+        error_messages={
+            "null": _("You should provide your nickname."),
+            "blank": _("Nickname cannot be empty."),
+        },
     )
     phone_number = models.CharField(
         max_length=50,
