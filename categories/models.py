@@ -14,7 +14,7 @@ class Category(TimeStampModel):
         PARKING = ("parking", "Parking")
         MOBILE = ("mobile", "Mobile")
 
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=20)
     kind = models.CharField(
         max_length=20,
         choices=CategoryKindChoices.choices,

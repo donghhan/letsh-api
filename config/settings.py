@@ -40,6 +40,7 @@ PROJECT_APPS = [
     "bookings.apps.BookingsConfig",
     "user_media.apps.UserMediaConfig",
     "categories.apps.CategoriesConfig",
+    "transportations.apps.TransportationsConfig",
 ]
 
 DJANGO_BUILTIN_APPS = [
