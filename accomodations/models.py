@@ -38,14 +38,12 @@ class Room(TimeStampModel):
     owner = models.ForeignKey(
         "users.User",
         on_delete=models.CASCADE,
-        null=True,
-        blank=True,
         verbose_name=_("Owner"),
         related_name="rooms",
     )
     amenities = models.ManyToManyField("accomodations.Amenity", related_name="rooms")
     category = models.ForeignKey(
-        "categories.Category", on_delete=models.SET_NULL, null=True, blank=True
+        "categories.Category", on_delete=models.DO_NOTHING, related_name="rooms"
     )
 
     def __str__(room):

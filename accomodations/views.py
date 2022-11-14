@@ -1,8 +1,9 @@
 from django.db import transaction  # If any codes have errors, queries won't be created.
+from django.utils.translation import gettext_lazy as _
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from rest_framework.status import HTTP_204_NO_CONTENT
+from rest_framework.status import HTTP_200_OK
 from rest_framework.exceptions import (
     NotFound,
     NotAuthenticated,
@@ -16,7 +17,10 @@ from categories.models import Category
 from user_media.serializers import *
 
 
-class AllAmenitiesView(APIView):
+class AmenitiesView(APIView):
+
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
     def get(self, request):
         all_amenities = Amenity.objects.all()
         serializer = AmenitySerializer(all_amenities, many=True)
@@ -32,6 +36,9 @@ class AllAmenitiesView(APIView):
 
 
 class AmenityDetailView(APIView):
+
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
     def get_object(self, pk):
         try:
             return Amenity.objects.get(pk=pk)
@@ -39,12 +46,12 @@ class AmenityDetailView(APIView):
             raise NotFound
 
     def get(self, request, pk):
-        amenity = Amenity.objects.get(pk=pk)
+        amenity = self.get_object(pk)
         serializer = AmenitySerializer(amenity)
         return Response(serializer.data)
 
     def put(self, request, pk):
-        amenity_to_update = Amenity.objects.get(pk=pk)
+        amenity_to_update = self.get_object(pk)
         serializer = AmenitySerializer(
             amenity_to_update, data=request.data, partial=True
         )
@@ -57,10 +64,10 @@ class AmenityDetailView(APIView):
     def delete(self, request, pk):
         amenity_to_delete = self.get_object(pk)
         amenity_to_delete.delete()
-        return Response(status=HTTP_204_NO_CONTENT)
+        return Response(status=HTTP_200_OK)
 
 
-class AllRoomsView(APIView):
+class RoomsView(APIView):
 
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -75,36 +82,31 @@ class AllRoomsView(APIView):
         serializer = RoomDetailSerializer(data=request.data)
 
         if serializer.is_valid():
-            # Grab that category through request.data
+            # Creating category first for creating new room
             category_pk = request.data.get("category")
             if not category_pk:
-                raise ParseError("Category is not found.")
-            # Search that category from DB
+                raise ParseError(
+                    _("You must choose a valid category before creating your own room.")
+                )
             try:
                 category = Category.objects.get(pk=category_pk)
-                # Throw error if user tries to connect accomodations with invalid categories (parking & mobile)
-                if (
-                    category.kind == Category.CategoryKindChoices.PARKING
-                    or category.kind == Category.CategoryKindChoices.MOBILE
-                ):
-                    raise ParseError("Category should be neither parking nor mobile.")
             except Category.DoesNotExist:
-                raise ParseError
+                raise ParseError(_("There is no such category."))
 
             try:
                 with transaction.atomic():
-                    new_room = serializer.save(
+                    room_to_create = serializer.save(
                         owner=request.user, category=category
-                    )  # Send that category into serializer.save()
-
-                    amenities = request.data.get("amenities")
-                    for amenity_pk in amenities:
+                    )
+                    # Adding amenities
+                    amenities_list = request.data.get("amenities")
+                    for amenity_pk in amenities_list:
                         amenity = Amenity.objects.get(pk=amenity_pk)
-                        new_room.amenities.add(amenity)
-                    serializer = RoomDetailSerializer(new_room)
+                        room_to_create.amenities.add(amenity)
+                    serializer = RoomDetailSerializer(room_to_create)
                     return Response(serializer.data)
             except Exception:
-                raise ParseError("There was something error for adding amenities.")
+                raise ParseError(_("There is no such amenity."))
         else:
             return Response(serializer.errors)
 
@@ -133,17 +135,53 @@ class RoomDetailView(APIView):
         return Response(serializer.data)
 
     def put(self, request, pk):
-        room_to_update = Room.objects.get(pk=pk)
-        serializer = RoomDetailSerializer(data=request.data)
+        room_to_update = self.get_object(pk)
+
+        # Check if user is logged in
+        if not request.user.is_authenticated:
+            raise NotAuthenticated
+        # Check if user is an owner
+        if request.user != room_to_update.owner:
+            raise PermissionDenied
+
+        serializer = RoomDetailSerializer(
+            room_to_update, data=request.data, partial=True
+        )
+
+        if serializer.is_valid():
+            category_to_update_pk = request.data.get("category")
+            try:
+                category = Category.objects.get(pk=category_to_update_pk)
+            except Category.DoesNotExist:
+                raise ParseError(_("There is no such category."))
+
+            try:
+                with transaction.atomic():
+                    updated_room = serializer.save(category=category)
+                    # Adding amenities
+                    amenities_list = request.data.get("amenities")
+                    for amenity_pk in amenities_list:
+                        amenity = Amenity.objects.get(pk=amenity_pk)
+                        updated_room.amenities.add(amenity)
+                    serializer = RoomDetailSerializer(updated_room)
+                    return Response(serializer.data)
+            except Exception:
+                raise ParseError(_("There is no such amenity."))
+        else:
+            return Response(serializer.errors)
 
     def delete(self, request, pk):
         room_to_delete = self.get_object(pk)
-        # You cannot delete room if user is not an owner
-        if room_to_delete.owner != request.user:
+
+        # Check if user is logged in
+        if not request.user.is_authenticated:
+            raise NotAuthenticated
+        # Check if user is an owner
+        if request.user != room_to_delete.owner:
             raise PermissionDenied
 
         room_to_delete.delete()
-        return Response(status=HTTP_204_NO_CONTENT)
+        return Response(status=HTTP_200_OK)
 
 
 class RoomReviewView(APIView):

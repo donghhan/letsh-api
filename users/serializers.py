@@ -5,4 +5,4 @@ from .models import *
 class SimpleUserForOneRoomSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ["nickname", "is_host"]
+        fields = ["nickname", "profile_photo"]

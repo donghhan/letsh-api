@@ -1,8 +1,8 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from .models import *
 from users.serializers import *
-from reviews.serializers import *
 from categories.serializers import *
+from reviews.serializers import *
 from user_media.serializers import *
 
 
@@ -43,11 +43,15 @@ class RoomListSerializer(ModelSerializer):
 
 
 class RoomDetailSerializer(ModelSerializer):
-    owner = SimpleUserForOneRoomSerializer()  # Serializer won't ask owner
-    amenities = AmenitySerializer(many=True)
+    owner = SimpleUserForOneRoomSerializer(read_only=True)
+    amenities = AmenitySerializer(many=True, read_only=True)
+    category = CategorySerializer(read_only=True)
     rating = SerializerMethodField()
     is_owner = SerializerMethodField()
-    photos = PhotoSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Room
+        fields = "__all__"
 
     def get_rating(self, room):
         return room.rating()
@@ -55,7 +59,3 @@ class RoomDetailSerializer(ModelSerializer):
     def get_is_owner(self, room):
         request = self.context["request"]
         return room.owner == request.user
-
-    class Meta:
-        model = Room
-        fields = "__all__"
