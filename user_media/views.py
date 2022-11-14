@@ -19,9 +19,8 @@ class PhotoDetailView(APIView):
     def delete(self, request, pk):
         photo = self.get_object(pk)
 
-        if photo.room:
-            if photo.room.owner != request.user:
-                raise PermissionDenied
+        if photo.room and photo.room.owner != request.user:
+            raise PermissionDenied
 
         photo.delete()
         return Response(status=HTTP_200_OK)

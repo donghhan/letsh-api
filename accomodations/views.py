@@ -137,9 +137,6 @@ class RoomDetailView(APIView):
     def put(self, request, pk):
         room_to_update = self.get_object(pk)
 
-        # Check if user is logged in
-        if not request.user.is_authenticated:
-            raise NotAuthenticated
         # Check if user is an owner
         if request.user != room_to_update.owner:
             raise PermissionDenied
@@ -201,7 +198,7 @@ class RoomReviewView(APIView):
             page = 1
 
         # Pagination
-        page_size = 3
+        page_size = 5
         start = (page - 1) * page_size
         end = start + page_size
 
@@ -235,6 +232,7 @@ class RoomPhotoView(APIView):
             raise PermissionDenied
 
         serializer = PhotoSerializer(data=request.data)
+
         if serializer.is_valid():
             photo = serializer.save(room=room)
             serializer = PhotoSerializer(photo)
