@@ -114,7 +114,7 @@ class User(AbstractBaseUser, TimeStampModel):
         null=True,
         blank=True,
     )
-    profile_photo = models.ImageField(
+    profile_photo = models.URLField(
         null=True, blank=True, verbose_name=_("Profile Photo")
     )
     sex = models.CharField(
@@ -160,47 +160,47 @@ class User(AbstractBaseUser, TimeStampModel):
     def is_staff(self):
         return self.is_admin
 
-    def clean(self):
-        # Check if either first name or last name includes characters other than alphabets.
-        if type(self.first_name) != str:
-            raise ValidationError(
-                {
-                    "first_name": _("First name can only include alphabets."),
-                }
-            )
-        elif type(self.last_name) != str:
-            raise ValidationError(
-                {
-                    "last_name": _("Last name can only include alphabets."),
-                }
-            )
-        # Nickname validation
-        unallowed_specials = "[\[$&+,:;=?@#|'<>-^*()%!\]\{\}\/]"
-        invalid_special = re.findall(unallowed_specials, self.nickname)
-        if len(invalid_special) != 0:
-            raise ValidationError(
-                {
-                    "nickname": _(
-                        "Nickname should contain only lower/uppercase of alphabets, numbers, . and _."
-                    )
-                }
-            )
-        elif len(self.nickname) < 2:
-            raise ValidationError(
-                {
-                    "nickname": _(
-                        "Nickname is too short. Should be no less than 2 characters."
-                    )
-                }
-            )
-        elif len(self.nickname) > 10:
-            raise ValidationError(
-                {
-                    "nickname": _(
-                        "Nickname is too long. Should be no less than 10 characters."
-                    )
-                }
-            )
+    # def clean(self):
+    #     # Check if either first name or last name includes characters other than alphabets.
+    #     if type(self.first_name) != str:
+    #         raise ValidationError(
+    #             {
+    #                 "first_name": _("First name can only include alphabets."),
+    #             }
+    #         )
+    #     elif type(self.last_name) != str:
+    #         raise ValidationError(
+    #             {
+    #                 "last_name": _("Last name can only include alphabets."),
+    #             }
+    #         )
+    #     # Nickname validation
+    #     unallowed_specials = "[\[$&+,:;=?@#|'<>-^*()%!\]\{\}\/]"
+    #     invalid_special = re.findall(unallowed_specials, self.nickname)
+    #     if len(invalid_special) != 0:
+    #         raise ValidationError(
+    #             {
+    #                 "nickname": _(
+    #                     "Nickname should contain only lower/uppercase of alphabets, numbers, . and _."
+    #                 )
+    #             }
+    #         )
+    #     elif len(self.nickname) < 2:
+    #         raise ValidationError(
+    #             {
+    #                 "nickname": _(
+    #                     "Nickname is too short. Should be no less than 2 characters."
+    #                 )
+    #             }
+    #         )
+    #     elif len(self.nickname) > 10:
+    #         raise ValidationError(
+    #             {
+    #                 "nickname": _(
+    #                     "Nickname is too long. Should be no less than 10 characters."
+    #                 )
+    #             }
+    #         )
 
     def save(self, *args, **kwargs):
         self.full_clean()
