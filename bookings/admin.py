@@ -7,4 +7,4 @@ class BookingAdmin(admin.ModelAdmin):
 
     """Booking Admin Model Definition"""
 
-    list_display = ("user", "rooms", "check_in", "check_out", "guests")
+    list_display = ("user", "room", "check_in", "check_out", "guests")

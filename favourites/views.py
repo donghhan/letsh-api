@@ -1,11 +1,13 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import NotFound
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
+from rest_framework.views import APIView
+
+from accomodations.models import *
+
 from .models import *
 from .serializers import *
-from accomodations.models import *
 
 
 class AllFavouritesView(APIView):
@@ -76,7 +78,7 @@ class FavouriteToggle(APIView):
             raise NotFound
 
     def put(self, request, pk, room_pk):
-        favourite = self.get_list(pk, request.user)
+        favourite = self.get_favourites(pk, request.user)
         room = self.get_room(room_pk)
 
         if favourite.rooms.filter(pk=room_pk).exists():

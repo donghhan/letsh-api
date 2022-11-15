@@ -4,6 +4,7 @@ from users.serializers import *
 from categories.serializers import *
 from reviews.serializers import *
 from user_media.serializers import *
+from favourites.models import *
 
 
 class AmenitySerializer(ModelSerializer):
@@ -48,6 +49,7 @@ class RoomDetailSerializer(ModelSerializer):
     category = CategorySerializer(read_only=True)
     rating = SerializerMethodField()
     is_owner = SerializerMethodField()
+    is_liked = SerializerMethodField()
 
     class Meta:
         model = Room
@@ -59,3 +61,7 @@ class RoomDetailSerializer(ModelSerializer):
     def get_is_owner(self, room):
         request = self.context["request"]
         return room.owner == request.user
+
+    def get_is_liked(self, room):
+        request = self.context["request"]
+        return Favourites.objects.filter(user=request.user, rooms__pk=room.pk).exists()

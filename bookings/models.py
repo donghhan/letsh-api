@@ -8,13 +8,21 @@ class Booking(models.Model):
     """Booking Model Definition"""
 
     user = models.ForeignKey(
-        "users.User", on_delete=models.CASCADE, null=True, blank=True
+        "users.User",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="booking",
     )
-    rooms = models.ForeignKey(
-        "accomodations.Room", on_delete=models.CASCADE, null=True, blank=True
+    room = models.ForeignKey(
+        "accomodations.Room",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="booking",
     )
-    check_in = models.DateTimeField(verbose_name=_("Checking in"))
-    check_out = models.DateTimeField(verbose_name=_("Checking out"))
+    check_in = models.DateField(verbose_name=_("Checking in"))
+    check_out = models.DateField(verbose_name=_("Checking out"))
     guests = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
 
     def __str__(self):
