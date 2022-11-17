@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-24 16:14+0900\n"
+"POT-Creation-Date: 2022-11-17 17:07+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,50 +18,337 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: users/models.py:10
+#: accomodations/models.py:12
+msgid "Accomodation Name"
+msgstr ""
+
+#: accomodations/models.py:14
+msgid "Price Per Night"
+msgstr ""
+
+#: accomodations/models.py:17
+msgid "Maximum Number of Guests"
+msgstr ""
+
+#: accomodations/models.py:20
+msgid "Number of beds"
+msgstr ""
+
+#: accomodations/models.py:23
+msgid "Number of Bedrooms"
+msgstr ""
+
+#: accomodations/models.py:26
+msgid "Numeber of Bathrooms"
+msgstr ""
+
+#: accomodations/models.py:29
+msgid "Free Breakfast"
+msgstr ""
+
+#: accomodations/models.py:32
+msgid "Free Internet"
+msgstr ""
+
+#: accomodations/models.py:34
+msgid "Free Parking"
+msgstr ""
+
+#: accomodations/models.py:36
+msgid "Free Booking Cancelation"
+msgstr ""
+
+#: accomodations/models.py:41
+msgid "Owner"
+msgstr ""
+
+#: accomodations/models.py:73
+msgid "Room"
+msgstr ""
+
+#: accomodations/models.py:74
+msgid "Rooms"
+msgstr ""
+
+#: accomodations/models.py:86
+msgid "Amenity"
+msgstr ""
+
+#: accomodations/models.py:87
+msgid "Amenities"
+msgstr ""
+
+#: accomodations/views.py:92
+msgid "You must choose a valid category before creating your own room."
+msgstr ""
+
+#: accomodations/views.py:97 accomodations/views.py:156
+msgid "There is no such category."
+msgstr ""
+
+#: accomodations/views.py:112 accomodations/views.py:169
+msgid "There is no such amenity."
+msgstr ""
+
+#: bookings/models.py:24
+msgid "Checking in"
+msgstr ""
+
+#: bookings/models.py:25
+msgid "Checking out"
+msgstr ""
+
+#: bookings/models.py:32
+msgid "Booking"
+msgstr ""
+
+#: bookings/models.py:33
+msgid "Bookings"
+msgstr ""
+
+#: categories/models.py:28
+msgid "Category"
+msgstr ""
+
+#: categories/models.py:29
+msgid "Categories"
+msgstr ""
+
+#: config/settings.py:141 users/models.py:69
+msgid "Thai"
+msgstr ""
+
+#: config/settings.py:142 users/models.py:68
+msgid "English"
+msgstr ""
+
+#: favourites/models.py:24
+msgid "Favourite"
+msgstr ""
+
+#: favourites/models.py:25
+msgid "Favourites"
+msgstr ""
+
+#: parkings/models.py:14
+msgid "Maximum Capacity"
+msgstr ""
+
+#: parkings/models.py:24
+msgid "Parking"
+msgstr ""
+
+#: parkings/models.py:25
+msgid "Parkings"
+msgstr ""
+
+#: reviews/models.py:43
+msgid "Review"
+msgstr ""
+
+#: reviews/models.py:44
+msgid "Reviews"
+msgstr ""
+
+#: templates/admin/base_site.html:20
+msgid "Documentation"
+msgstr ""
+
+#: templates/admin/base_site.html:22
+msgid "Change password"
+msgstr ""
+
+#: templates/admin/base_site.html:24
+msgid "Log out"
+msgstr ""
+
+#: user_media/models.py:24
+msgid "Photo"
+msgstr ""
+
+#: user_media/models.py:25
+msgid "Photos"
+msgstr ""
+
+#: user_media/models.py:47
+msgid "Video"
+msgstr ""
+
+#: user_media/models.py:48
+msgid "Videos"
+msgstr ""
+
+#: users/admin.py:36
+msgid "Passwords do not match."
+msgstr ""
+
+#: users/admin.py:159
+msgid "User Admin Page"
+msgstr ""
+
+#: users/admin.py:160
+msgid "User Site Management"
+msgstr ""
+
+#: users/apps.py:8 users/models.py:211
+msgid "Users"
+msgstr "ผู้ใช้"
+
+#: users/models.py:25
 msgid "You must provide a valid email address."
 msgstr "คุณต้องระบุที่อยู่อีเมลที่ถูกต้อง."
 
+#: users/models.py:27
+#, fuzzy
+#| msgid "You must provide a valid email address."
+msgid "You must provide a valid password."
+msgstr "คุณต้องระบุที่อยู่อีเมลที่ถูกต้อง."
+
+#: users/models.py:29
+#, fuzzy
+#| msgid "You must provide a valid email address."
+msgid "You must provide your first name."
+msgstr "คุณต้องระบุที่อยู่อีเมลที่ถูกต้อง."
+
+#: users/models.py:31
+#, fuzzy
+#| msgid "You must provide a valid email address."
+msgid "You must provide your last name."
+msgstr "คุณต้องระบุที่อยู่อีเมลที่ถูกต้อง."
+
 #: users/models.py:33
+msgid "You must provide your nickname for using service."
+msgstr ""
+
+#: users/models.py:63
+msgid "Male"
+msgstr ""
+
+#: users/models.py:64
+msgid "Female"
+msgstr ""
+
+#: users/models.py:65
+msgid "Prefer not to answer"
+msgstr ""
+
+#: users/models.py:72
+msgid "US Dollar"
+msgstr ""
+
+#: users/models.py:73
+msgid "Thai Baht"
+msgstr ""
+
+#: users/models.py:78
 msgid "Email address must be unique and valid."
 msgstr "ที่อยู่อีเมลต้องไม่ซ้ำกันและถูกต้อง."
 
-#: users/models.py:35
+#: users/models.py:80
 #, fuzzy
 #| msgid "You must provide a valid email address."
 msgid "You should provide an email address."
 msgstr "คุณต้องระบุที่อยู่อีเมลที่ถูกต้อง."
 
-#: users/models.py:36
+#: users/models.py:81
 #, fuzzy
 #| msgid "Email address must be unique and valid."
 msgid "Email address cannot be empty."
 msgstr "ที่อยู่อีเมลต้องไม่ซ้ำกันและถูกต้อง."
 
-#: users/models.py:39
+#: users/models.py:86
 msgid "First Name"
 msgstr "ชื่อ"
 
-#: users/models.py:40
+#: users/models.py:88
+#, fuzzy
+#| msgid "You must provide a valid email address."
+msgid "You should provide your first name."
+msgstr "คุณต้องระบุที่อยู่อีเมลที่ถูกต้อง."
+
+#: users/models.py:89
+#, fuzzy
+#| msgid "Email address must be unique and valid."
+msgid "First name cannot be empty."
+msgstr "ที่อยู่อีเมลต้องไม่ซ้ำกันและถูกต้อง."
+
+#: users/models.py:94
 msgid "Last Name"
 msgstr "นามสกุล"
 
-#: users/models.py:42
+#: users/models.py:96
+#, fuzzy
+#| msgid "You must provide a valid email address."
+msgid "You should provide your last name."
+msgstr "คุณต้องระบุที่อยู่อีเมลที่ถูกต้อง."
+
+#: users/models.py:97
+#, fuzzy
+#| msgid "Email address must be unique and valid."
+msgid "Last name cannot be empty."
+msgstr "ที่อยู่อีเมลต้องไม่ซ้ำกันและถูกต้อง."
+
+#: users/models.py:102
+msgid "Nickname"
+msgstr ""
+
+#: users/models.py:104
+msgid ""
+"Can only include lower/uppercases numbers, . and _. This nickname will be "
+"shown on the profile of the host. If not specified, first name field would "
+"appear."
+msgstr "ใส่ได้เฉพาะตัวเลขตัวพิมพ์เล็ก/ตัวพิมพ์ใหญ่ . และ _. ชื่อเล่นนี้จะแสดงในโปรไฟล์ของโฮสต์ หากไม่ระบุ ช่องชื่อจะปรากฏขึ้น"
+
+#: users/models.py:107
+#, fuzzy
+#| msgid "You must provide a valid email address."
+msgid "You should provide your nickname."
+msgstr "คุณต้องระบุที่อยู่อีเมลที่ถูกต้อง."
+
+#: users/models.py:108
+#, fuzzy
+#| msgid "Email address must be unique and valid."
+msgid "Nickname cannot be empty."
+msgstr "ที่อยู่อีเมลต้องไม่ซ้ำกันและถูกต้อง."
+
+#: users/models.py:113
 msgid "Phone Number"
 msgstr "โทรศัพท์"
 
-#: users/models.py:44
+#: users/models.py:118
+msgid "Profile Photo"
+msgstr ""
+
+#: users/models.py:122
+msgid "Sex"
+msgstr ""
+
+#: users/models.py:128
+msgid "Language"
+msgstr ""
+
+#: users/models.py:134
+msgid "Currency"
+msgstr ""
+
+#: users/models.py:138
+msgid "Host"
+msgstr ""
+
+#: users/models.py:139
 msgid "Active User"
 msgstr "ผู้ใช้ที่ใช้งานอยู่"
 
-#: users/models.py:45
+#: users/models.py:140
 msgid "Admin User"
 msgstr "ผู้ดูแลระบบ"
 
-#: users/models.py:68
+#: users/models.py:210
 msgid "User"
 msgstr "ผู้ใช้"
 
-#: users/models.py:69
-msgid "Users"
-msgstr "ผู้ใช้"
+#: users/views.py:36
+#, fuzzy
+#| msgid "You must provide a valid email address."
+msgid "You should provide a valid password."
+msgstr "คุณต้องระบุที่อยู่อีเมลที่ถูกต้อง."

@@ -155,3 +155,6 @@ class UserAdmin(BaseUserAdmin):
     ordering = ("email",)
     filter_horizontal = ()
     actions = [set_activity]
+
+    admin.site.index_title = _("User Admin Page")
+    admin.site.site_title = _("User Site Management")

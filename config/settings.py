@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import os
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,6 +43,7 @@ PROJECT_APPS = [
     "categories.apps.CategoriesConfig",
     "transportations.apps.TransportationsConfig",
     "parkings.apps.ParkingsConfig",
+    "i18n_switcher.apps.I18NSwitcherConfig",
 ]
 
 DJANGO_BUILTIN_APPS = [
@@ -73,7 +75,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -136,11 +138,17 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
+LANGUAGES = [
+    ("th", _("Thai")),
+    ("en", _("English")),
+]
+
 LOCAL_PATH = BASE_DIR / "locale"
 
 TIME_ZONE = "UTC"
 
 USE_I18N = True
+USE_L10N = True
 
 USE_TZ = True
 
@@ -149,6 +157,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 MEDIA_ROOT = "uploads"
 MEDIA_URL = "user-uploads/"

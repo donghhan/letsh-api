@@ -1,0 +1,35 @@
+{% extends "admin/base.html" %} 
+{% load static %}
+{% load i18n %} 
+{% load i18n_switcher %} 
+
+{% block extrahead %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/custom_admin.css' %}" />
+{% endblock %} 
+
+{% block userlinks %}
+    <a href="{{ request|switch_i18n:'en' }}" style="font-size: 1rem"> 🇺🇸 </a>
+    /
+    <a href="{{ request|switch_i18n:'th' }}" style="font-size: 1rem"> 🇹🇭 </a>
+    
+    {% if site_url %}
+        <a href="{{ site_url }}">{% translate 'View site' %}</a> / 
+    {% endif %} 
+    
+    {% if user.is_active and user.is_admin %} 
+        {% url 'django-admindocs-docroot' as docsroot %} 
+        {% if docsroot %}
+            <a href="{{ docsroot }}">{% translate 'Documentation' %}</a> / 
+        {% endif %} 
+    {% endif %} 
+    
+    {% if user.has_usable_password %}
+        <a href="{% url 'admin:password_change' %}">{% translate 'Change password' %}</a> / 
+    {% endif %}
+
+
+    <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="logout-btn">{% translate 'Log out' %}</button>
+    </form>
+{% endblock %}
