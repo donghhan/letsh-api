@@ -41,6 +41,7 @@ PROJECT_APPS = [
     "user_media.apps.UserMediaConfig",
     "categories.apps.CategoriesConfig",
     "transportations.apps.TransportationsConfig",
+    "parkings.apps.ParkingsConfig",
 ]
 
 DJANGO_BUILTIN_APPS = [
@@ -100,6 +101,14 @@ DATABASES = {
         "HOST": os.environ.get("DB_HOST"),
         "PORT": os.environ.get("DB_PORT"),
     }
+}
+
+# DRF Setting
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ]
 }
 
 
