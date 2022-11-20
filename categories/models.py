@@ -14,11 +14,12 @@ class Category(TimeStampModel):
         PARKING = ("parking", "Parking")
         MOBILE = ("mobile", "Mobile")
 
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, verbose_name=_("Name"))
     kind = models.CharField(
         max_length=20,
         choices=CategoryKindChoices.choices,
         default=CategoryKindChoices.ROOM,
+        verbose_name=_("Kind"),
     )
 
     def __str__(self):

@@ -3,6 +3,8 @@
 {% load i18n %} 
 {% load i18n_switcher %} 
 
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
 {% block extrahead %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/custom_admin.css' %}" />
 {% endblock %} 
@@ -33,3 +35,8 @@
         <button type="submit" class="logout-btn">{% translate 'Log out' %}</button>
     </form>
 {% endblock %}
+
+<!-- https://automationpanda.com/2018/04/21/django-admin-translations/ -->
+<!-- https://stackoverflow.com/questions/40686201/django-1-10-1-my-templatetag-is-not-a-registered-tag-library-must-be-one-of -->
+<!-- https://stackoverflow.com/questions/21469470/how-can-i-change-django-admin-language -->
+<!-- https://stackoverflow.com/questions/6583877/how-to-override-and-extend-basic-django-admin-templates -->

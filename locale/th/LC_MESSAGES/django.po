@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-17 17:07+0900\n"
+"POT-Creation-Date: 2022-11-19 21:49+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106,19 +106,29 @@ msgstr ""
 msgid "Bookings"
 msgstr ""
 
-#: categories/models.py:28
-msgid "Category"
-msgstr ""
+#: categories/models.py:17
+#, fuzzy
+#| msgid "Last Name"
+msgid "Name"
+msgstr "ชื่อ"
+
+#: categories/models.py:22
+msgid "Kind"
+msgstr "ชนิด"
 
 #: categories/models.py:29
-msgid "Categories"
-msgstr ""
+msgid "Category"
+msgstr "หมวดหมู่"
 
-#: config/settings.py:141 users/models.py:69
+#: categories/models.py:30
+msgid "Categories"
+msgstr "หมวดหมู่"
+
+#: config/settings.py:142 users/models.py:69
 msgid "Thai"
 msgstr ""
 
-#: config/settings.py:142 users/models.py:68
+#: config/settings.py:143 users/models.py:68
 msgid "English"
 msgstr ""
 
@@ -128,6 +138,10 @@ msgstr ""
 
 #: favourites/models.py:25
 msgid "Favourites"
+msgstr ""
+
+#: i18n_switcher/apps.py:8
+msgid "I18N Switcher"
 msgstr ""
 
 #: parkings/models.py:14
@@ -150,15 +164,19 @@ msgstr ""
 msgid "Reviews"
 msgstr ""
 
-#: templates/admin/base_site.html:20
-msgid "Documentation"
+#: templates/admin/base_site.html:16
+msgid "View site"
 msgstr ""
 
 #: templates/admin/base_site.html:22
+msgid "Documentation"
+msgstr ""
+
+#: templates/admin/base_site.html:27
 msgid "Change password"
 msgstr ""
 
-#: templates/admin/base_site.html:24
+#: templates/admin/base_site.html:33
 msgid "Log out"
 msgstr ""
 
@@ -297,7 +315,9 @@ msgid ""
 "Can only include lower/uppercases numbers, . and _. This nickname will be "
 "shown on the profile of the host. If not specified, first name field would "
 "appear."
-msgstr "ใส่ได้เฉพาะตัวเลขตัวพิมพ์เล็ก/ตัวพิมพ์ใหญ่ . และ _. ชื่อเล่นนี้จะแสดงในโปรไฟล์ของโฮสต์ หากไม่ระบุ ช่องชื่อจะปรากฏขึ้น"
+msgstr ""
+"ใส่ได้เฉพาะตัวเลขตัวพิมพ์เล็ก/ตัวพิมพ์ใหญ่ . และ _. ชื่อเล่นนี้จะแสดงในโปรไฟล์ของโฮสต์ "
+"หากไม่ระบุ ช่องชื่อจะปรากฏขึ้น"
 
 #: users/models.py:107
 #, fuzzy
