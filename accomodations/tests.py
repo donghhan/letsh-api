@@ -1,3 +1,21 @@
-from django.test import TestCase
+from rest_framework.test import APITestCase
+from .models import *
 
-# Create your tests here.
+
+class TestAmenitiesView(APITestCase):
+    NAME = "Sample Amenity"
+    DESCRIPTION = "This is a sample amenity for testing."
+
+    def setUp(self):
+        Amenity.objects.create(name=self.NAME, description=self.DESCRIPTION)
+
+    def test_all_amenities(self):
+        response = self.client.get("/en/api/v1/accomodations/amenities/")
+        data = response.json()
+        print(data)
+
+        self.assertEqual(response.status_code, 200, "Status code is not 200")
+        self.assertIsInstance(data, list)
+        self.assertEqual(len(data), 1)
+        self.assertEqual(data[0]["name"], self.NAME)
+        self.assertEqual(data[0]["description"], self.DESCRIPTION)
