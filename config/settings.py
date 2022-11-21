@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import os
 from pathlib import Path
+from datetime import timedelta
 from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -53,9 +54,13 @@ DJANGO_BUILTIN_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework.authtoken",
 ]
 
-THIRDPARTY_APPS = ["rest_framework"]
+THIRDPARTY_APPS = [
+    "rest_framework",
+    "rest_framework_simplejwt",
+]
 
 INSTALLED_APPS = DJANGO_BUILTIN_APPS + THIRDPARTY_APPS + PROJECT_APPS
 
@@ -108,9 +113,18 @@ DATABASES = {
 # DRF Setting
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.BasicAuthentication",
         "rest_framework.authentication.SessionAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ]
+}
+
+# Simple JWT
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ALGORITHM": "HS256",
+    "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
 
@@ -169,3 +183,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Auth
 AUTH_USER_MODEL = "users.User"
+APPEND_SLASH = False
