@@ -8,7 +8,7 @@ class TestAmenitiesView(APITestCase):
     DESCRIPTION = "This is a sample amenity for testing."
 
     def setUp(self):
-        Amenity.objects.create(name=self.NAME, description=self.DESCRIPTION)
+        Amenity.objects.create(name=self.NAME)
 
     def test_all_amenities(self):
         response = self.client.get("/en/api/v1/accomodations/amenities/")
@@ -23,11 +23,12 @@ class TestAmenitiesView(APITestCase):
 
 
 class TestAmenityView(APITestCase):
+    PK = 1
     NAME = "Sample Amenity"
     DESCRIPTION = "This is a sample amenity for testing."
 
     def setUp(self):
-        Amenity.objects.create(name=self.NAME, description=self.DESCRIPTION)
+        Amenity.objects.create(name=self.NAME, description=self.DESCRIPTION, pk=self.PK)
 
     def test_amenity_not_found(self):
         response = self.client.get("/en/api/v1/accomodations/amenities/2")
@@ -39,13 +40,13 @@ class TestAmenityView(APITestCase):
         data = response.json()
 
         self.assertEqual(data["name"], self.NAME)
-        self.assertEqual(data["description"], self.DESCRIPTION)
 
     def test_put_amenity(self):
         pass
 
     def test_delete_amenity(self):
         response = self.client.delete("/en/api/v1/accomodations/amenities/1")
+
         self.assertEqual(response.status_code, 200)
 
 
