@@ -57,14 +57,12 @@ DJANGO_BUILTIN_APPS = [
     "rest_framework.authtoken",
 ]
 
-THIRDPARTY_APPS = [
-    "rest_framework",
-    "rest_framework_simplejwt",
-]
+THIRDPARTY_APPS = ["rest_framework", "rest_framework_simplejwt", "corsheaders"]
 
 INSTALLED_APPS = DJANGO_BUILTIN_APPS + THIRDPARTY_APPS + PROJECT_APPS
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
@@ -126,6 +124,10 @@ SIMPLE_JWT = {
     "ALGORITHM": "HS256",
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
+
+# CORS
+
+CORS_ALLOWED_ORIGINS = ["http://localhost:8080"]
 
 
 # Password validation
