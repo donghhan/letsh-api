@@ -10,7 +10,6 @@ packages = [{include = "letsh_api"}]
 python = "^3.10"
 Django = "4.0.7"
 Pillow = "^9.2.0"
-psycopg2-binary = "^2.9.4"
 django-dotenv = "^1.4.2"
 djangorestframework = "^3.14.0"
 djangorestframework-simplejwt = "^5.2.2"
