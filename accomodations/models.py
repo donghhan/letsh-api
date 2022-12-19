@@ -10,9 +10,7 @@ class Room(TimeStampModel):
     """Rooms Model Definition"""
 
     name = models.CharField(max_length=200, verbose_name=_("Accomodation Name"))
-    price_per_night = models.DecimalField(
-        max_digits=10, decimal_places=2, verbose_name=_("Price Per Night")
-    )
+    price_per_night = models.PositiveIntegerField(verbose_name=_("Price Per Night"))
     maximum_guests = models.PositiveSmallIntegerField(
         verbose_name=_("Maximum Number of Guests"), default=1
     )

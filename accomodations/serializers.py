@@ -21,6 +21,7 @@ class RoomListSerializer(ModelSerializer):
     class Meta:
         model = Room
         fields = [
+            "id",
             "name",
             "price_per_night",
             "is_free_breakfast",
@@ -31,6 +32,7 @@ class RoomListSerializer(ModelSerializer):
             "number_of_bedrooms",
             "number_of_bathrooms",
             "rating",
+            "maximum_guests",
             "is_owner",
             "photos",
         ]
@@ -64,4 +66,8 @@ class RoomDetailSerializer(ModelSerializer):
 
     def get_is_liked(self, room):
         request = self.context["request"]
-        return Favourites.objects.filter(user=request.user, rooms__pk=room.pk).exists()
+
+        if request.user.is_authenticated:
+            return Favourites.objects.filter(
+                user=request.user, rooms__pk=room.pk
+            ).exists()
