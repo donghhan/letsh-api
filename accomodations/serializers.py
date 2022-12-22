@@ -49,6 +49,7 @@ class RoomDetailSerializer(ModelSerializer):
     owner = SimpleUserForOneRoomSerializer(read_only=True)
     amenities = AmenitySerializer(many=True, read_only=True)
     category = CategorySerializer(read_only=True)
+    photos = PhotoSerializer(many=True, read_only=True)
     rating = SerializerMethodField()
     is_owner = SerializerMethodField()
     is_liked = SerializerMethodField()

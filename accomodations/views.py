@@ -1,3 +1,4 @@
+import time
 from django.db import transaction  # If any codes have errors, queries won't be created.
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
@@ -133,6 +134,7 @@ class RoomDetailView(APIView):
             raise NotFound
 
     def get(self, request, pk):
+        time.sleep(2)
         room = self.get_object(pk)
         serializer = RoomDetailSerializer(room, context={"request": request})
         return Response(serializer.data)

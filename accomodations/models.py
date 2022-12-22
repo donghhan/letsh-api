@@ -14,6 +14,9 @@ class Room(TimeStampModel):
     maximum_guests = models.PositiveSmallIntegerField(
         verbose_name=_("Maximum Number of Guests"), default=1
     )
+    description = models.TextField(
+        verbose_name=_("Room Description"), null=True, blank=True
+    )
     number_of_beds = models.PositiveSmallIntegerField(
         verbose_name=_("Number of beds"), default=1
     )

@@ -19,7 +19,14 @@ class RoomAdmin(admin.ModelAdmin):
     def make_inactive(modeladmin, request, queryset):
         queryset.update(is_active=False)
 
-    list_display = ("name", "category", "price_per_night", "owner", "rating")
+    list_display = (
+        "name",
+        "category",
+        "price_per_night",
+        "owner",
+        "rating",
+        "description",
+    )
     list_per_page = 50
     empty_value_display = "(unknown)"
     search_fields = ("name",)
@@ -33,6 +40,7 @@ class RoomAdmin(admin.ModelAdmin):
                     "price_per_night",
                     "maximum_guests",
                     "owner",
+                    "description",
                 )
             },
         ),
