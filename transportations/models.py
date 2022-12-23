@@ -3,11 +3,12 @@ from django.utils.translation import gettext_lazy as _
 from common.models import *
 
 
-class Features(CommonNameModel):
+class Features(models.Model):
 
     """Transportation Features Model Definition"""
 
-    pass
+    feature_name = models.CharField(max_length=100, verbose_name=_("Features Name"))
+    icon = models.URLField(null=True, blank=True)
 
     class Meta:
         verbose_name = _("Feature")
@@ -19,7 +20,7 @@ class Policies(models.Model):
 
     """Transportation Policies Model Definition"""
 
-    pass
+    policy = models.TextField(blank=True)
 
     class Meta:
         verbose_name = _("Policy")
@@ -81,12 +82,16 @@ class Transportation(TimeStampModel):
         on_delete=models.DO_NOTHING,
         verbose_name=_("Features"),
         related_name="transportation",
+        null=True,
+        blank=True,
     )
     policies = models.ForeignKey(
         Policies,
         on_delete=models.DO_NOTHING,
         verbose_name=_("Policies"),
         related_name="transportation",
+        null=True,
+        blank=True,
     )
 
     def __str__(self):
