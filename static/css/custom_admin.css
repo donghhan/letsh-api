@@ -3,7 +3,7 @@
   vertical-align: text-top;
 }
 
-form {
+#logout-form {
   display: flex;
   justify-content: flex-end;
 }
