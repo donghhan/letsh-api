@@ -1,3 +1,36 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
-# Create your models here.
+
+class CommonDateModel(models.Model):
+
+    """
+    Common Date Model Definition: Only contains date model
+    - created_date: Created date time
+    - updated_date: Updated date time
+    """
+
+    created_date = models.DateField(auto_now_add=True, verbose_name=_("Created Date"))
+    updated_date = models.DateField(auto_now=True, verbose_name=_("Updated Date"))
+
+    class Meta:
+        abstract = True
+
+
+class CommonDateTimeModel(models.Model):
+
+    """
+    Common Date Time Model Definition: Contains both date and time
+    - created_at: Created date and time
+    - updated_at: Updated date and time
+    """
+
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name=_("Created Date & Time")
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True, verbose_name=_("Updated Date & Time")
+    )
+
+    class Meta:
+        abstract = True
