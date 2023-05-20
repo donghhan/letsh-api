@@ -34,3 +34,17 @@ class CommonDateTimeModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class CommonNameModel(models.Model):
+
+    """
+    Common Name Model Definition
+    - Used for creating the individual items (i.e. amenities, etc.)
+    """
+
+    name = models.CharField(max_length=255, verbose_name=_("Name"))
+    icon = models.ImageField(null=True, blank=True, verbose_name=_("Icon"))
+
+    class Meta:
+        abstract = True
