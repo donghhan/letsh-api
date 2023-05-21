@@ -8,7 +8,7 @@ class RoomAmenity(CommonNameModel):
 
     """Room Amenity Model Definition"""
 
-    pass
+    icon = models.ImageField(null=True, blank=True, verbose_name=_("Icon"))
 
     class Meta:
         verbose_name = _("Room Amenity")
@@ -80,6 +80,14 @@ class Room(CommonDateTimeModel, models.Model):
         "rooms.RoomAmenity",
         verbose_name=_("Amenities"),
         related_name="rooms",
+        blank=True,
+    )
+    category = models.ForeignKey(
+        "categories.Category",
+        on_delete=models.DO_NOTHING,
+        verbose_name=_("Category"),
+        null=True,
+        blank=True,
     )
 
     def __str__(self):
