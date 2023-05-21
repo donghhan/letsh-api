@@ -78,8 +78,6 @@ class Room(CommonDateTimeModel, models.Model):
     )
     amenity = models.ManyToManyField(
         "rooms.RoomAmenity",
-        null=True,
-        blank=True,
         verbose_name=_("Amenities"),
         related_name="rooms",
     )
