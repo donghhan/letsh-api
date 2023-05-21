@@ -57,6 +57,7 @@ PROJECT_APPS = [
     "wishlists.apps.WishlistsConfig",
     "reservations.apps.ReservationsConfig",
     "common.apps.CommonConfig",
+    "categories.apps.CategoriesConfig",
 ]
 
 INSTALLED_APPS = THIRDPARTY_APPS + DJANGO_APPS + PROJECT_APPS
