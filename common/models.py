@@ -44,7 +44,6 @@ class CommonNameModel(models.Model):
     """
 
     name = models.CharField(max_length=255, verbose_name=_("Name"))
-    icon = models.ImageField(null=True, blank=True, verbose_name=_("Icon"))
 
     class Meta:
         abstract = True
