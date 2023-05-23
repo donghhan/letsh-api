@@ -9,9 +9,9 @@ class User(AbstractUser):
     """User Model Definition"""
 
     class SexChoices(models.TextChoices):
-        MALE = "MALE", _("Male")
-        FEMALE = "FEMALE", _("Female")
-        UNKNOWN = "UNKNOWN", _("Unknown")
+        MALE = "Male", _("Male")
+        FEMALE = "Female", _("Female")
+        UNKNOWN = "Unknown", _("Unknown")
 
     mobile_number = models.CharField(
         max_length=128, verbose_name=_("Mobile Number"), null=True, blank=True

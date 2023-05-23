@@ -21,11 +21,11 @@ class Room(CommonDateTimeModel, models.Model):
     """Room Model Definition"""
 
     class RoomTypeChoices(models.TextChoices):
-        APARTMENTS = "APARTMENTS", _("Apartments")
-        VILLAS = "VILLAS", _("Villas")
-        BEACH_HOUSE = "BEACH HOUSES", _("Beach Houses")
-        HOTELS = "HOTELS", _("Hotels")
-        RESORTS = "RESORTS", _("Resorts")
+        APARTMENTS = "Apartments", _("Apartments")
+        VILLAS = "Villas", _("Villas")
+        BEACH_HOUSE = "Beach Houses", _("Beach Houses")
+        HOTELS = "Hotels", _("Hotels")
+        RESORTS = "Resorts", _("Resorts")
 
     name = models.CharField(
         max_length=50,
