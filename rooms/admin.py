@@ -7,7 +7,7 @@ class RoomAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "price_per_night",
-        "type",
+        "room_type",
         "guest",
         "bedroom",
         "bathroom",

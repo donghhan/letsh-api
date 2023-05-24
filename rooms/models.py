@@ -43,7 +43,7 @@ class Room(CommonDateTimeModel, models.Model):
             "Value of price per night should always be more than 1 no matter of currency."
         ),
     )
-    type = models.CharField(
+    room_type = models.CharField(
         max_length=100,
         choices=RoomTypeChoices.choices,
         default=RoomTypeChoices.APARTMENTS,
