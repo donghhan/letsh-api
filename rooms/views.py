@@ -4,7 +4,7 @@ from rest_framework.exceptions import NotFound
 from rest_framework.status import HTTP_200_OK
 from .serializers import *
 from .models import *
-from .permissions import *
+from common.permissions import *
 
 
 class RoomView(views.APIView):
@@ -33,7 +33,7 @@ class RoomDetailView(views.APIView):
             room = Room.objects.get(pk=pk)
             return room
         except Room.DoesNotExist:
-            return NotFound
+            raise NotFound
 
     def get(self, request, pk):
         room = self.get_object(pk)
@@ -80,7 +80,7 @@ class RoomAmenityDetailView(views.APIView):
             amenity = RoomAmenity.objects.get(pk=pk)
             return amenity
         except RoomAmenity.DoesNotExist:
-            return NotFound
+            raise NotFound
 
     def get(self, request, pk):
         amenity = self.get_object(pk)

@@ -4,11 +4,15 @@ from django.utils.translation import gettext_lazy as _
 from common.models import CommonDateTimeModel, CommonNameModel
 
 
-class RoomAmenity(CommonNameModel):
+class RoomAmenity(models.Model):
 
     """Room Amenity Model Definition"""
 
+    name = models.CharField(max_length=124, verbose_name=_("Name"))
     icon = models.ImageField(null=True, blank=True, verbose_name=_("Icon"))
+
+    def __str__(self):
+        return str(self.name)
 
     class Meta:
         verbose_name = _("Room Amenity")
