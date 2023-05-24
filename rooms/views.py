@@ -1,15 +1,14 @@
 from rest_framework import views
 from rest_framework.response import Response
-from rest_framework.exceptions import NotFound
+from rest_framework.exceptions import NotFound, NotAuthenticated, ParseError
 from rest_framework.status import HTTP_200_OK
-from .serializers import *
-from .models import *
-from common.permissions import *
+from .serializers import RoomAmenitySerializer, RoomSerializer
+from .models import Room, RoomAmenity
+from common.permissions import IsAdminOrReadOnly
+from categories.models import Category
 
 
 class RoomView(views.APIView):
-    permission_classes = [IsAdminOrReadOnly]
-
     # Get all room information
     def get(self, request):
         all_rooms = Room.objects.all()
@@ -18,16 +17,41 @@ class RoomView(views.APIView):
 
     # Create new room
     def post(self, request):
-        serializer = RoomSerializer(data=request.data)
+        if request.user.is_authenticated:
+            serializer = RoomSerializer(data=request.data)
 
-        if serializer.is_valid():
-            new_room = serializer.save()
-            return Response(RoomSerializer(new_room).data)
+            if serializer.is_valid():
+                # Category adding for room
+                category_pk = request.data.get("category")
+                if not category_pk:
+                    raise ParseError("Category is required.")
+                try:
+                    category = Category.objects.get(pk=category_pk)
+                except Category.DoesNotExist:
+                    raise ParseError("That category doesn't exist.")
+
+                new_room = serializer.save(owner=request.user, category=category)
+
+                # Amenities adding for room
+                amenities = request.data.get("amenities")
+                for amenity_pk in amenities:
+                    try:
+                        amenity = RoomAmenity.objects.get(pk=amenity_pk)
+                        new_room.objects.add(amenity)
+                    except RoomAmenity.DoesNotExist:
+                        raise ParseError(
+                            f"Amenity with id {amenity_pk} does not exist."
+                        )
+
+                serializer = RoomSerializer(new_room)
+                return Response(serializer.data)
+            else:
+                return Response(serializer.errors)
+        else:
+            raise NotAuthenticated
 
 
 class RoomDetailView(views.APIView):
-    permission_classes = [IsAdminOrReadOnly]
-
     def get_object(self, pk):
         try:
             room = Room.objects.get(pk=pk)
@@ -65,7 +89,7 @@ class RoomAmenityView(views.APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = RoomAmenitySerializer(data=request.data)
+        serializer = RoomAmenitySerializer(data=dir(request).data)
 
         if serializer.is_valid():
             new_amenity = serializer.save()

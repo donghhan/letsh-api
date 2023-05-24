@@ -75,12 +75,10 @@ class Room(CommonDateTimeModel, models.Model):
     owner = models.ForeignKey(
         "users.User",
         on_delete=models.CASCADE,
-        null=True,
-        blank=True,
         verbose_name=_("Owner"),
         related_name="rooms",
     )
-    amenity = models.ManyToManyField(
+    amenities = models.ManyToManyField(
         "rooms.RoomAmenity",
         verbose_name=_("Amenities"),
         related_name="rooms",
