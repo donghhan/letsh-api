@@ -1,7 +1,9 @@
 from django.urls import path
+from rest_framework.routers import SimpleRouter
 from .views import *
 
-urlpatterns = [
-    path("", CategoryView.as_view()),
-    path("<int:pk>", CategoryDetailView.as_view()),
-]
+router = SimpleRouter()
+
+router.register(r"", CategoryViewset)
+
+urlpatterns = router.urls
