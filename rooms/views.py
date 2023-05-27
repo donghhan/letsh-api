@@ -1,3 +1,5 @@
+from django.db import transaction
+from django.shortcuts import get_object_or_404
 from rest_framework import views
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, NotAuthenticated, ParseError
@@ -34,14 +36,14 @@ class RoomView(views.APIView):
 
                 # Amenities adding for room
                 amenities = request.data.get("amenities")
+
+                valid_amenities = []
+
                 for amenity_pk in amenities:
-                    try:
-                        amenity = RoomAmenity.objects.get(pk=amenity_pk)
-                        new_room.objects.add(amenity)
-                    except RoomAmenity.DoesNotExist:
-                        raise ParseError(
-                            f"Amenity with id {amenity_pk} does not exist."
-                        )
+                    amenity_to_include = get_object_or_404(RoomAmenity, pk=amenity_pk)
+                    valid_amenities.append(amenity_to_include)
+
+                new_room.amenities.set(valid_amenities)
 
                 serializer = RoomSerializer(new_room)
                 return Response(serializer.data)
