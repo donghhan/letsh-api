@@ -49,6 +49,7 @@ DJANGO_APPS = [
 THIRDPARTY_APPS = [
     "cities_light",
     "rest_framework",
+    "drf_yasg",
 ]
 
 PROJECT_APPS = [
