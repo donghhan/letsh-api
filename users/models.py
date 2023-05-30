@@ -22,6 +22,9 @@ class User(AbstractUser):
         choices=SexChoices.choices,
         default=SexChoices.MALE,
     )
+    profile_picture = models.URLField(
+        null=True, blank=True, verbose_name=_("Profile picture")
+    )
 
     def __str__(self):
         return str(self.username)

@@ -34,6 +34,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("api/v1/rooms/", include("rooms.urls")),
     path("api/v1/categories/", include("categories.urls")),
+    path("api/v1/users/", include("users.urls")),
     re_path(
         r"^swagger(?P<format>\.json|\.yaml)$",
         schema_view.without_ui(cache_timeout=0),
