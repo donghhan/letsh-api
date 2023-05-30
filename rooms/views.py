@@ -1,8 +1,12 @@
-from django.db import transaction
 from django.shortcuts import get_object_or_404
 from rest_framework import views
 from rest_framework.response import Response
-from rest_framework.exceptions import NotFound, NotAuthenticated, ParseError
+from rest_framework.exceptions import (
+    NotFound,
+    NotAuthenticated,
+    ParseError,
+    PermissionDenied,
+)
 from rest_framework.status import HTTP_200_OK
 from .serializers import RoomAmenitySerializer, RoomSerializer
 from .models import Room, RoomAmenity
@@ -23,10 +27,7 @@ class RoomView(views.APIView):
             serializer = RoomSerializer(data=request.data)
 
             if serializer.is_valid():
-                # Category adding for room
                 category_pk = request.data.get("category")
-                if not category_pk:
-                    raise ParseError("Category is required.")
                 try:
                     category = Category.objects.get(pk=category_pk)
                 except Category.DoesNotExist:
@@ -68,16 +69,31 @@ class RoomDetailView(views.APIView):
 
     def put(self, request, pk):
         room = self.get_object(pk)
-        serializer = RoomSerializer(room, data=request.data, partia=True)
 
-        if serializer.is_valid():
-            room_to_update = serializer.save()
-            return Response(RoomSerializer(room_to_update).data)
+        if room.owner != request.user:
+            raise PermissionDenied
+
+        if request.user.is_authenticated:
+            serializer = RoomSerializer(room, data=request.data, partial=True)
+
+            if serializer.is_valid():
+                category_pk = request.data.get("category")
+                room_to_update = serializer.save()
+                return Response(RoomSerializer(room_to_update).data)
+            else:
+                return Response(serializer.errors)
         else:
-            return Response(serializer.errors)
+            raise NotAuthenticated
 
     def delete(self, request, pk):
         room = self.get_object(pk)
+
+        if not request.user.is_authenticated:
+            raise NotAuthenticated
+
+        if room.owner != request.user:
+            raise PermissionDenied
+
         room.delete()
         return Response(status=HTTP_200_OK)
 
