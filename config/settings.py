@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 import os
+from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 from django.utils.translation import gettext_lazy as _
@@ -50,6 +51,7 @@ THIRDPARTY_APPS = [
     "cities_light",
     "rest_framework",
     "drf_yasg",
+    "rest_framework_simplejwt",  # For i18n
 ]
 
 PROJECT_APPS = [
@@ -59,6 +61,7 @@ PROJECT_APPS = [
     "reservations.apps.ReservationsConfig",
     "common.apps.CommonConfig",
     "categories.apps.CategoriesConfig",
+    "tokens.apps.TokensConfig",
 ]
 
 INSTALLED_APPS = THIRDPARTY_APPS + DJANGO_APPS + PROJECT_APPS
@@ -74,6 +77,24 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "config.urls"
+
+# Django Rest Framework
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    )
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": False,
+    "UPDATE_LAST_LOGIN": False,
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
+}
 
 TEMPLATES = [
     {
