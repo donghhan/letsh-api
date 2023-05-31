@@ -62,5 +62,3 @@ class RoomTest(test.APITestCase):
 
         self.client.force_login(self.user)
         response_after_login = self.client.post(self.TestData.base_url)
-
-        print(response_after_login.json())
