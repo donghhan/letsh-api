@@ -1,5 +1,8 @@
+from django.utils import timezone
 from django.shortcuts import get_object_or_404
+from django.http import Http404
 from rest_framework import views
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.exceptions import (
     NotFound,
@@ -9,7 +12,9 @@ from rest_framework.exceptions import (
 )
 from rest_framework.status import HTTP_200_OK
 from .serializers import RoomAmenitySerializer, RoomSerializer
+from reservations.serializers import ReservationSerializer, CreateReservationSerializer
 from .models import Room, RoomAmenity
+from reservations.models import Reservation
 from common.permissions import IsAdminOrReadOnly
 from categories.models import Category
 
@@ -141,3 +146,33 @@ class RoomAmenityDetailView(views.APIView):
         amenity = self.get_object(pk)
         amenity.delete()
         return Response(status=HTTP_200_OK)
+
+
+class RoomReservationView(views.APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_object(self, pk):
+        try:
+            return Room.objects.get(pk=pk)
+        except Exception as e:
+            raise NotFound
+
+    def get(self, request, pk):
+        room = self.get_object(pk)
+        now = timezone.localtime(timezone.now()).date()
+        reservations = Reservation.objects.filter(room=room, check_in__gt=now)
+
+        if reservations:
+            serializer = ReservationSerializer(reservations, many=True)
+            return Response(serializer.data)
+        else:
+            raise Http404
+
+    def post(self, request, pk):
+        room_to_book = self.get_object(pk)
+        serializer = CreateReservationSerializer(data=request.data)
+
+        if serializer.is_valid():
+            return Response({"ok": True})
+        else:
+            return Response(serializer.errors)

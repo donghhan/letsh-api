@@ -7,4 +7,5 @@ urlpatterns = [
     path("amenities/<int:pk>", RoomAmenityDetailView.as_view()),
     path("", RoomView.as_view()),
     path("<int:pk>", RoomDetailView.as_view()),
+    path("<int:pk>/reservations", RoomReservationView.as_view()),
 ]

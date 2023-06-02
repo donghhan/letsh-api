@@ -43,6 +43,7 @@ urlpatterns = [
     path("api/v1/categories/", include("categories.urls")),
     path("api/v1/users/", include("users.urls")),
     path("api/v1/tokens/", include("tokens.urls")),
+    # path("api/v1/reservations", include("reservations.urls")),
     re_path(
         r"^swagger(?P<format>\.json|\.yaml)$",
         schema_view.without_ui(cache_timeout=0),
