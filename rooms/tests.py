@@ -1,6 +1,10 @@
+from datetime import timedelta
+from django.utils.timezone import now
 from rest_framework import test
 from .models import RoomAmenity, Room
 from users.models import User
+from categories.models import Category
+from reservations.models import Reservation
 
 
 class RoomAmenityTest(test.APITestCase):
@@ -62,3 +66,70 @@ class RoomTest(test.APITestCase):
 
         self.client.force_login(self.user)
         response_after_login = self.client.post(self.TestData.base_url)
+
+
+class RoomReservationTest(test.APITestCase):
+    base_url = "/api/v1/rooms/2/reservations/"
+    base_url_not_found = "/api/v1/rooms/199/reservations/"
+
+    class UserTestData:
+        username = "test"
+        password = "Example123$"
+
+    class RoomTestData:
+        name = "test room"
+        price_per_night = 100
+        guest = 4
+
+    class ReservationTestData:
+        room = "test room"
+        adult = 2
+        children = 2
+        check_in = "2023-06-15"
+        check_out = "2023-06-30"
+
+    def setUp(self):
+        # Guest for booking room
+        guest = User.objects.create(username=self.UserTestData.username)
+        guest.set_password(self.UserTestData.password)
+        guest.save()
+        self.guest = guest
+
+        # OWner of room
+        owner = User.objects.create(username="owner")
+        owner.set_password("Example123$")
+        owner.save()
+        self.owner = owner
+
+        # Category of room
+        category = Category.objects.create(name="test category")
+        category.save()
+        self.category = category
+
+        room_to_book = Room.objects.create(
+            name=self.RoomTestData.name,
+            price_per_night=self.RoomTestData.price_per_night,
+            guest=self.RoomTestData.guest,
+            owner=owner,
+            category=category,
+        )
+
+        Reservation.objects.create(
+            guest=self.guest,
+            room=room_to_book,
+            adult=self.ReservationTestData.adult,
+            children=self.ReservationTestData.children,
+            check_in=self.ReservationTestData.check_in,
+            check_out=self.ReservationTestData.check_out,
+        )
+
+    def test_get_reservation(self):
+        response_not_found = self.client.get(self.base_url_not_found)
+
+        # Check GET request for a single reservation
+        self.assertEqual(response_not_found.status_code, 404)
+
+        # Check if reservation is found
+        self.client.force_login(self.guest)
+        response = self.client.get(self.base_url)
+        print(response)
