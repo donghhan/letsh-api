@@ -173,6 +173,8 @@ class RoomReservationView(views.APIView):
         serializer = CreateReservationSerializer(data=request.data)
 
         if serializer.is_valid():
-            return Response({"ok": True})
+            new_reservation = serializer.save(room=room_to_book, user=request.user)
+            serializer = CreateReservationSerializer(new_reservation)
+            return Response(serializer.data)
         else:
             return Response(serializer.errors)
