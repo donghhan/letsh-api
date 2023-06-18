@@ -51,6 +51,7 @@ THIRDPARTY_APPS = [
     "cities_light",
     "rest_framework",
     "drf_yasg",
+    "corsheaders",
     "rest_framework_simplejwt",  # For i18n
 ]
 
@@ -67,10 +68,10 @@ PROJECT_APPS = [
 INSTALLED_APPS = THIRDPARTY_APPS + DJANGO_APPS + PROJECT_APPS
 
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",

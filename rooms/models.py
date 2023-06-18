@@ -20,6 +20,32 @@ class RoomAmenity(models.Model):
         db_table = "amenities"
 
 
+class RoomType(models.Model):
+
+    """Room Type Model Definition"""
+
+    name = models.CharField(max_length=124, verbose_name=_("Room Type"), unique=True)
+    cover_image = models.URLField(
+        verbose_name=_("Cover Image"),
+        help_text=_(
+            "Cover image that will be used for image carousel in the home page."
+        ),
+        null=True,
+        blank=True,
+    )
+
+    def __str__(self):
+        return str(self.name)
+
+    def __unicode__(self):
+        return f"{self.name}"
+
+    class Meta:
+        verbose_name = _("Room Type")
+        verbose_name_plural = _("Room Types")
+        db_table = "room_types"
+
+
 class Room(CommonDateTimeModel, models.Model):
 
     """Room Model Definition"""
@@ -43,10 +69,12 @@ class Room(CommonDateTimeModel, models.Model):
             "Value of price per night should always be more than 1 no matter of currency."
         ),
     )
-    room_type = models.CharField(
-        max_length=100,
-        choices=RoomTypeChoices.choices,
-        default=RoomTypeChoices.APARTMENTS,
+    room_type = models.ForeignKey(
+        "rooms.RoomType",
+        on_delete=models.DO_NOTHING,
+        to_field="name",
+        default="Example RoomType",
+        verbose_name=_("Room Type"),
     )
     guest = models.PositiveSmallIntegerField(
         verbose_name=_("Maximum guests allowed"),

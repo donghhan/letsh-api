@@ -19,3 +19,8 @@ class RoomAdmin(admin.ModelAdmin):
 @admin.register(RoomAmenity)
 class RoomAmenityAdmin(admin.ModelAdmin):
     list_display = ("name",)
+
+
+@admin.register(RoomType)
+class RoomTypeAdmin(admin.ModelAdmin):
+    list_display = ("name",)
