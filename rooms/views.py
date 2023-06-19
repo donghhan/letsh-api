@@ -11,9 +11,9 @@ from rest_framework.exceptions import (
     PermissionDenied,
 )
 from rest_framework.status import HTTP_200_OK
-from .serializers import RoomAmenitySerializer, RoomSerializer
-from reservations.serializers import ReservationSerializer, CreateReservationSerializer
-from .models import Room, RoomAmenity
+from .serializers import *
+from reservations.serializers import *
+from .models import *
 from reservations.models import Reservation
 from common.permissions import IsAdminOrReadOnly
 from categories.models import Category
@@ -146,6 +146,13 @@ class RoomAmenityDetailView(views.APIView):
         amenity = self.get_object(pk)
         amenity.delete()
         return Response(status=HTTP_200_OK)
+
+
+class RoomTypeView(views.APIView):
+    def get(self, request):
+        all_room_types = RoomType.objects.all()
+        serializer = RoomTypeSerializer(all_room_types, many=True)
+        return Response(serializer.data, status=HTTP_200_OK)
 
 
 class RoomReservationView(views.APIView):

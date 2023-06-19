@@ -10,6 +10,12 @@ class RoomAmenitySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class RoomTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RoomType
+        fields = "__all__"
+
+
 class RoomSerializer(serializers.ModelSerializer):
     amenity = RoomAmenitySerializer(read_only=True)
     owner = RoomOwnerSerializer(read_only=True)

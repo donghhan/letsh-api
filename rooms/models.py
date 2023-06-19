@@ -71,9 +71,7 @@ class Room(CommonDateTimeModel, models.Model):
     )
     room_type = models.ForeignKey(
         "rooms.RoomType",
-        on_delete=models.DO_NOTHING,
-        to_field="name",
-        default="Example RoomType",
+        on_delete=models.CASCADE,
         verbose_name=_("Room Type"),
     )
     guest = models.PositiveSmallIntegerField(
