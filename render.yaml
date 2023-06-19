@@ -1,16 +1,16 @@
 databases:
-  - name: letsh
+  - name: letsh-db
     databaseName: letsh
     user: letsh
     region: singapore
 
 services:
   - type: web
-    name: letsh
+    name: letsh-api
     runtime: python
     region: singapore
     buildCommand: "./build.sh"
-    startCommand: "gunicorn letsh.wsgi:application"
+    startCommand: "gunicorn config.wsgi:application"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
