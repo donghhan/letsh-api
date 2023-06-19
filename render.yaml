@@ -2,11 +2,13 @@ databases:
   - name: letsh
     databaseName: letsh
     user: letsh
+    region: singapore
 
 services:
   - type: web
     name: letsh
     runtime: python
+    region: singapore
     buildCommand: "./build.sh"
     startCommand: "gunicorn mysite.wsgi:application"
     envVars:
