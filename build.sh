@@ -2,8 +2,8 @@
 # exit on error
 set -o errexit
 
-pip3 install --upgrade pip
-pip3 install --force-reinstall -U setuptools
+pip install --upgrade pip
+pip install --force-reinstall -U setuptools
 
 poetry install
 
