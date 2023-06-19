@@ -4,7 +4,6 @@ version = "0.1.0"
 description = ""
 authors = ["donghhan <apensia914@gmail.com>"]
 readme = "README.md"
-packages = [{include = "letsh_api"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"

@@ -142,7 +142,7 @@ else:
     DATABASES = {
         "default": {
             dj_database_url.config(
-                # default="will_add_later",
+                default=str(os.environ.get("DATABASE_URL")),
                 conn_max_age=600,
             ),
         }
