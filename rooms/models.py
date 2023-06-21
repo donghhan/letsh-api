@@ -25,13 +25,13 @@ class RoomType(models.Model):
     """Room Type Model Definition"""
 
     name = models.CharField(max_length=124, verbose_name=_("Room Type"), unique=True)
-    cover_image = models.URLField(
+    cover_image = models.ImageField(
         verbose_name=_("Cover Image"),
+        null=True,
+        blank=True,
         help_text=_(
             "Cover image that will be used for image carousel in the home page."
         ),
-        null=True,
-        blank=True,
     )
 
     def __str__(self):
