@@ -1,3 +1,4 @@
+from datetime import timedelta
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from .models import *
@@ -21,7 +22,6 @@ class ReservationAdmin(admin.ModelAdmin):
         "reservation_id",
         "reservation_created_time",
         "room",
-        "get_total_stay_length",
     ]
     fieldsets = [
         (
@@ -46,7 +46,10 @@ class ReservationAdmin(admin.ModelAdmin):
         (
             "Reservation Time",
             {
-                "fields": ["check_in", "check_out", "get_total_stay_length"],
+                "fields": [
+                    "check_in",
+                    "check_out",
+                ],
             },
         ),
     ]
@@ -72,11 +75,3 @@ class ReservationAdmin(admin.ModelAdmin):
         return email
 
     get_guest_email.short_description = "Email"
-
-    def get_total_stay_length(self, obj):
-        check_in = obj.check_in
-        check_out = obj.check_out
-        total_stay_length = (check_out - check_in).days
-        return f"{total_stay_length} " + _("days")
-
-    get_total_stay_length.short_description = "Total Staying Length"

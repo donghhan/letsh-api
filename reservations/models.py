@@ -22,7 +22,7 @@ class Reservation(CommonDateTimeModel, models.Model):
         primary_key=True,
         editable=False,
         max_length=20,
-        default=reservation_id_generator(),
+        default=reservation_id_generator,
     )
     guest = models.ForeignKey(
         "users.User",
