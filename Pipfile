@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
+django = "4.2.2"
 pillow = "*"
 dj-database-url = "*"
 black = "*"
@@ -15,7 +15,8 @@ drf-yasg = "*"
 djangorestframework-simplejwt = "*"
 django-cors-headers = "*"
 whitenoise = "*"
-cloudflare = "*"
+django-storages = "*"
+boto3 = "*"
 
 [dev-packages]
 

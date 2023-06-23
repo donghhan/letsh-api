@@ -64,6 +64,7 @@ PROJECT_APPS = [
     "common.apps.CommonConfig",
     "categories.apps.CategoriesConfig",
     "tokens.apps.TokensConfig",
+    "photos.apps.PhotosConfig",
 ]
 
 INSTALLED_APPS = THIRDPARTY_APPS + DJANGO_APPS + PROJECT_APPS
@@ -177,8 +178,23 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 if not DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
     STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+
+# Media files upload
+
+MEDIA_URL = "media/"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
