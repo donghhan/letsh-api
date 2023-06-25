@@ -2,6 +2,7 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 from rest_framework import views
+from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.exceptions import (
@@ -10,8 +11,14 @@ from rest_framework.exceptions import (
     ParseError,
     PermissionDenied,
 )
-from rest_framework.status import HTTP_200_OK
+from rest_framework.status import (
+    HTTP_200_OK,
+    HTTP_201_CREATED,
+    HTTP_400_BAD_REQUEST,
+    HTTP_500_INTERNAL_SERVER_ERROR,
+)
 from .serializers import *
+from photos.serializers import *
 from reservations.serializers import *
 from .models import *
 from reservations.models import Reservation
@@ -57,6 +64,10 @@ class RoomView(views.APIView):
                 return Response(serializer.errors)
         else:
             raise NotAuthenticated
+
+
+class SimplifiedRoomForHomePage(generics.ListAPIView):
+    pass
 
 
 class RoomDetailView(views.APIView):
@@ -155,6 +166,11 @@ class RoomTypeView(views.APIView):
         return Response(serializer.data, status=HTTP_200_OK)
 
 
+class RoomTypeDetailView(views.APIView):
+    def get(self, pk):
+        pass
+
+
 class RoomReservationView(views.APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -185,3 +201,33 @@ class RoomReservationView(views.APIView):
             return Response(serializer.data)
         else:
             return Response(serializer.errors)
+
+
+class RoomPhotoView(views.APIView):
+    def get_object(self, pk):
+        try:
+            room = Room.objects.get(pk=pk)
+            return room
+        except Room.DoesNotExist:
+            raise NotFound
+
+    def get_permissions(self):
+        return super().get_permissions()
+
+    def get(self, request, pk):
+        room = self.get_object(pk)
+
+    def post(self, request, pk):
+        room = self.get_object(pk)
+
+        if request.user != room.owner:
+            raise PermissionDenied
+
+        serializer = RoomPhotoSerializer(data=request.data)
+
+        if serializer.is_valid():
+            new_room_photo = serializer.save(room=room)
+            serializer = RoomPhotoSerializer(new_room_photo)
+            return Response(serializer.data, status=HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=HTTP_500_INTERNAL_SERVER_ERROR)

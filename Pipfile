@@ -17,6 +17,7 @@ django-cors-headers = "*"
 whitenoise = "*"
 django-storages = "*"
 boto3 = "*"
+cloudflare = "*"
 
 [dev-packages]
 

@@ -1,12 +1,17 @@
 from django.urls import path
-from .views import *
-
+from . import views
 
 urlpatterns = [
-    path("amenities/", RoomAmenityView.as_view()),
-    path("amenities/<int:pk>", RoomAmenityDetailView.as_view()),
-    path("types/", RoomTypeView.as_view()),
-    path("", RoomView.as_view()),
-    path("<int:pk>", RoomDetailView.as_view()),
-    path("<int:pk>/reservations/", RoomReservationView.as_view()),
+    path("amenities/", views.RoomAmenityView.as_view()),
+    path("amenities/<int:pk>", views.RoomAmenityDetailView.as_view()),
+    path("room-types/", views.RoomTypeView.as_view()),
+    path(
+        "room-types/<int:pk>",
+        views.RoomTypeDetailView.as_view(),
+        name="room_type_detail",
+    ),
+    path("", views.RoomView.as_view()),
+    path("<int:pk>", views.RoomDetailView.as_view()),
+    path("<int:pk>/reservations/", views.RoomReservationView.as_view()),
+    path("<int:pk>/photos/", views.RoomPhotoView.as_view(), name="room-photos"),
 ]

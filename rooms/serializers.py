@@ -24,3 +24,17 @@ class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
         exclude = ["created_at", "updated_at"]
+
+
+class SimplifiedRoomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Room
+        fields = [
+            "pk",
+            "name",
+            "price_per_night",
+        ]
+
+
+class RoomPhotoSerializer(serializers.ModelSerializer):
+    pass
