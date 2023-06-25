@@ -7,7 +7,7 @@ from common.models import CommonDateTimeModel
 
 class RoomTypeThumbnail(CommonDateTimeModel):
 
-    """Photo Model Definition"""
+    """RoomTypeThumbnail Model Definition"""
 
     file = models.ImageField(verbose_name=_("Photo file"))
     room_type = models.ForeignKey(
@@ -25,3 +25,26 @@ class RoomTypeThumbnail(CommonDateTimeModel):
         verbose_name = "Photo for room type"
         verbose_name_plural = "Photos for room type"
         db_table = "photo_room_type"
+
+
+class RoomPhoto(models.Model):
+
+    """Room Photo Model Definition"""
+
+    photo = models.URLField(verbose_name=_("Photo"))
+    room = models.ForeignKey(
+        "rooms.Room",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name=_("Room"),
+        related_name="rooms",
+    )
+
+    def __str__(self):
+        return str(self.photo)
+
+    class Meta:
+        verbose_name = "Photo for room"
+        verbose_name_plural = "Photos for room"
+        db_table = "photo_room"

@@ -4,4 +4,5 @@ from . import views
 router = SimpleRouter()
 
 router.register(r"room-type", views.RoomTypeViewset, basename="room-type-thumbnail")
+
 urlpatterns = router.urls

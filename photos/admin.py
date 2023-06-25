@@ -2,6 +2,6 @@ from django.contrib import admin
 from .models import *
 
 
-@admin.register(RoomTypeThumbnail)
-class PhotoAdmin(admin.ModelAdmin):
-    list_display = ("file",)
+@admin.register(RoomPhoto)
+class RoomPhotoAdmin(admin.ModelAdmin):
+    list_display = ("photo", "room")
