@@ -65,6 +65,7 @@ PROJECT_APPS = [
     "categories.apps.CategoriesConfig",
     "tokens.apps.TokensConfig",
     "photos.apps.PhotosConfig",
+    "reviews.apps.ReviewsConfig",
 ]
 
 INSTALLED_APPS = THIRDPARTY_APPS + DJANGO_APPS + PROJECT_APPS
