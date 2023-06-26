@@ -64,6 +64,8 @@ class Review(CommonDateTimeModel):
         average_score = round(total_scores / 6, 2)
         return average_score
 
+    get_average_rating.short_description = _("Average Rating")
+
     def __str__(self):
         return str(f"{self.customer}'s review on {self.room}")
 
