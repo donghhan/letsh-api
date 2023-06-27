@@ -14,6 +14,7 @@ class RoomAdmin(admin.ModelAdmin):
         "bathroom",
         "wifi",
         "owner",
+        "total_reviews",
     )
 
 

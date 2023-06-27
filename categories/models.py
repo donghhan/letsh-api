@@ -8,6 +8,13 @@ class Category(models.Model):
 
     name = models.CharField(max_length=128, verbose_name=_("Category name"))
 
+    # Get total number of rooms below the chosen category
+    def get_total_room_by_categories(category):
+        total_room_number = category.rooms.count()
+        return total_room_number
+
+    get_total_room_by_categories.short_description = _("Total rooms")
+
     def __str__(self):
         return str(self.name)
 

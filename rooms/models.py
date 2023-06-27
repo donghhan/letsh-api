@@ -50,13 +50,6 @@ class Room(CommonDateTimeModel, models.Model):
 
     """Room Model Definition"""
 
-    class RoomTypeChoices(models.TextChoices):
-        APARTMENTS = "Apartments", _("Apartments")
-        VILLAS = "Villas", _("Villas")
-        BEACH_HOUSE = "Beach Houses", _("Beach Houses")
-        HOTELS = "Hotels", _("Hotels")
-        RESORTS = "Resorts", _("Resorts")
-
     name = models.CharField(
         max_length=50,
         verbose_name=_("Name"),
@@ -73,6 +66,7 @@ class Room(CommonDateTimeModel, models.Model):
         "rooms.RoomType",
         on_delete=models.CASCADE,
         verbose_name=_("Room Type"),
+        related_name="rooms",
     )
     guest = models.PositiveSmallIntegerField(
         verbose_name=_("Maximum guests allowed"),
@@ -116,7 +110,14 @@ class Room(CommonDateTimeModel, models.Model):
         verbose_name=_("Category"),
         null=True,
         blank=True,
+        related_name="rooms",
     )
+
+    def total_reviews(room):
+        total_number_reviews = room.reviews.count()
+        return total_number_reviews
+
+    total_reviews.short_description = _("Total reviews")
 
     def __str__(self):
         return str(self.name)

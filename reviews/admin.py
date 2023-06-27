@@ -44,10 +44,9 @@ class RoomScoreFilter(admin.SimpleListFilter):
 class ReviewAdmin(admin.ModelAdmin):
     empty_value_display = "-----"
     fieldsets = [
-        ("Room & Customer", {"fields": ["room", "customer"]}),
         (
             "Evaluation",
-            {"fields": ["get_average_rating", "comment"], "classes": "wide"},
+            {"fields": ["average_rating", "comment"], "classes": "wide"},
         ),
         (
             "Individual Scores",
@@ -72,15 +71,19 @@ class ReviewAdmin(admin.ModelAdmin):
         "communication",
         "check_in",
         "value",
-        "get_average_rating",
+        "average_rating",
         "comment",
     )
     list_display_links = ("room",)
     list_per_page = 20
     list_filter = [RoomScoreFilter]
-    search_fields = ("room", "user")
+    search_fields = ("room__name", "customer__username")
     search_help_text = _("Searchable by room name and user ID.")
-    readonly_fields = ("room", "customer", "comment", "get_average_rating")
+    readonly_fields = ("room", "customer", "comment", "average_rating")
+
+    @admin.display(ordering="book__author", description="Author")
+    def get_customer_username(self, obj):
+        return obj.book.author
 
     def get_average_score(self, obj):
         print(obj.get_average_rating)

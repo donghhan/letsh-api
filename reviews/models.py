@@ -52,19 +52,26 @@ class Review(CommonDateTimeModel):
     )
     comment = models.TextField(verbose_name=_("Comment"), null=True, blank=True)
 
-    def get_average_rating(self):
-        total_scores = (
-            self.cleanliness
-            + self.accuracy
-            + self.location
-            + self.communication
-            + self.check_in
-            + self.value
-        )
-        average_score = round(total_scores / 6, 2)
-        return average_score
+    def average_rating(self):
+        rating_fields = [
+            self.cleanliness,
+            self.accuracy,
+            self.location,
+            self.communication,
+            self.check_in,
+            self.value,
+        ]
 
-    get_average_rating.short_description = _("Average Rating")
+        rating_values = [rating for rating in rating_fields if rating is not None]
+
+        if rating_values:
+            total_scores = sum(rating_values)
+            average_score = round(total_scores / len(rating_values), 2)
+            return average_score
+
+        return None
+
+    average_rating.short_description = _("Average Rating")
 
     def __str__(self):
         return str(f"{self.customer}'s review on {self.room}")
