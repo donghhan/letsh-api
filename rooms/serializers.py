@@ -11,17 +11,10 @@ class RoomAmenitySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class RoomTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = RoomType
-        fields = "__all__"
-
-
 class RoomSerializer(serializers.ModelSerializer):
     amenity = RoomAmenitySerializer(read_only=True)
     owner = RoomOwnerSerializer(read_only=True)
     category = CategorySerializer(read_only=True)
-    room_type = RoomTypeSerializer(read_only=True)
     total_reviews = serializers.SerializerMethodField()
     average_rating = serializers.SerializerMethodField()
 

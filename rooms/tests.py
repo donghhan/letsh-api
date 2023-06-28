@@ -1,5 +1,3 @@
-from datetime import timedelta
-from django.utils.timezone import now
 from rest_framework import test
 from .models import RoomAmenity, Room
 from users.models import User

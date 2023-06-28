@@ -45,6 +45,14 @@ class ReviewAdmin(admin.ModelAdmin):
     empty_value_display = "-----"
     fieldsets = [
         (
+            "Room",
+            {
+                "fields": [
+                    "room",
+                ]
+            },
+        ),
+        (
             "Evaluation",
             {"fields": ["average_rating", "comment"], "classes": "wide"},
         ),
@@ -79,7 +87,11 @@ class ReviewAdmin(admin.ModelAdmin):
     list_filter = [RoomScoreFilter]
     search_fields = ("room__name", "customer__username")
     search_help_text = _("Searchable by room name and user ID.")
-    readonly_fields = ("room", "customer", "comment", "average_rating")
+    readonly_fields = (
+        "room",
+        "customer",
+        "average_rating",
+    )
 
     @admin.display(ordering="book__author", description="Author")
     def get_customer_username(self, obj):

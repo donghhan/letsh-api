@@ -159,13 +159,6 @@ class RoomAmenityDetailView(views.APIView):
         return Response(status=HTTP_200_OK)
 
 
-class RoomTypeView(views.APIView):
-    def get(self, request):
-        all_room_types = RoomType.objects.all()
-        serializer = RoomTypeSerializer(all_room_types, many=True)
-        return Response(serializer.data, status=HTTP_200_OK)
-
-
 class RoomTypeDetailView(views.APIView):
     def get(self, pk):
         pass

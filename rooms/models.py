@@ -9,7 +9,6 @@ class RoomAmenity(models.Model):
     """Room Amenity Model Definition"""
 
     name = models.CharField(max_length=124, verbose_name=_("Name"))
-    icon = models.ImageField(null=True, blank=True, verbose_name=_("Icon"))
 
     def __str__(self):
         return str(self.name)
@@ -20,35 +19,23 @@ class RoomAmenity(models.Model):
         db_table = "amenities"
 
 
-class RoomType(models.Model):
-
-    """Room Type Model Definition"""
-
-    name = models.CharField(max_length=124, verbose_name=_("Room Type"), unique=True)
-    cover_image = models.ImageField(
-        verbose_name=_("Cover Image"),
-        null=True,
-        blank=True,
-        help_text=_(
-            "Cover image that will be used for image carousel in the home page."
-        ),
-    )
-
-    def __str__(self):
-        return str(self.name)
-
-    def __unicode__(self):
-        return f"{self.name}"
-
-    class Meta:
-        verbose_name = _("Room Type")
-        verbose_name_plural = _("Room Types")
-        db_table = "room_types"
-
-
 class Room(CommonDateTimeModel, models.Model):
 
     """Room Model Definition"""
+
+    class RoomTypeChoices(models.TextChoices):
+        HOTEL = "Hotel", _("Hotel")
+        APARTMENT = "Apartment", _("Apartment")
+        CONDOMINIUM = "Condominium", _("Condominium")
+        VILLA = "Villa", _("Villa")
+        RESORT = "Resort", _("Resort")
+        CASTLE = "Castle", _("Castle")
+        BEACH_HOUSE = "Beach House", _("Beach House")
+        LUXE = "Luxe", _("Luxe")
+        CABIN = "Cabin", _("Cabin")
+        CHATEAU = "Cheateau", _("Chateau")
+        MANSION = "Mansion", _("Mansion")
+        FARM = "Farm", _("Farm")
 
     name = models.CharField(
         max_length=50,
@@ -62,11 +49,11 @@ class Room(CommonDateTimeModel, models.Model):
             "Value of price per night should always be more than 1 no matter of currency."
         ),
     )
-    room_type = models.ForeignKey(
-        "rooms.RoomType",
-        on_delete=models.CASCADE,
+    room_type = models.CharField(
+        max_length=255,
+        choices=RoomTypeChoices.choices,
+        default=RoomTypeChoices.HOTEL,
         verbose_name=_("Room Type"),
-        related_name="rooms",
     )
     guest = models.PositiveSmallIntegerField(
         verbose_name=_("Maximum guests allowed"),
