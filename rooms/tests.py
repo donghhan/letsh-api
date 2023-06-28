@@ -6,13 +6,16 @@ from reservations.models import Reservation
 
 
 class RoomAmenityTest(test.APITestCase):
+    class UserTestData:
+        username = "admin"
+        password = "admin123"
+
     class TestData:
         name = "Amenity test"
-        icon = "example.png"
         base_url = "/api/v1/rooms/amenities/"
 
     def setUp(self):
-        RoomAmenity.objects.create(name=self.TestData.name, icon=self.TestData.icon)
+        RoomAmenity.objects.create(name=self.TestData.name)
 
     def test_get_all_amenities(self):
         response = self.client.get(self.TestData.base_url)
@@ -28,7 +31,8 @@ class RoomAmenityTest(test.APITestCase):
         self.assertEqual(data[0]["name"], self.TestData.name)
 
     def test_create_new_amenities(self):
-        pass
+        response = self.client.post(self.TestData.base_url)
+        self.assertEqual(response.status_code, 403)
 
 
 class RoomTest(test.APITestCase):

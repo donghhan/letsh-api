@@ -19,23 +19,47 @@ class RoomAmenity(models.Model):
         db_table = "amenities"
 
 
+class RoomType(models.Model):
+
+    """Room Type Model Definition"""
+
+    class RoomTypeChoices(models.TextChoices):
+        HOTEL = "hotel", _("Hotel")
+        APARTMENT = "apartment", _("Apartment")
+        CONDOMINIUM = "condominium", _("Condominium")
+        VILLA = "villa", _("Villa")
+        RESORT = "resort", _("Resort")
+        CASTLE = "castle", _("Castle")
+        BEACH_HOUSE = "beach House", _("Beach House")
+        LUXE = "luxe", _("Luxe")
+        CABIN = "cabin", _("Cabin")
+        CHATEAU = "cheateau", _("Chateau")
+        MANSION = "mansion", _("Mansion")
+        FARM = "farm", _("Farm")
+
+    room_type = models.CharField(
+        max_length=255,
+        choices=RoomTypeChoices.choices,
+        default=RoomTypeChoices.HOTEL,
+        verbose_name=_("Room Type"),
+    )
+
+    def total_rooms(room_type):
+        total_room_number = room_type.rooms.count()
+        return f"{total_room_number:,}"
+
+    def __str__(self):
+        return str(self.room_type)
+
+    class Meta:
+        verbose_name = _("Room Type")
+        verbose_name_plural = _("Room Types")
+        db_table = "room_types"
+
+
 class Room(CommonDateTimeModel, models.Model):
 
     """Room Model Definition"""
-
-    class RoomTypeChoices(models.TextChoices):
-        HOTEL = "Hotel", _("Hotel")
-        APARTMENT = "Apartment", _("Apartment")
-        CONDOMINIUM = "Condominium", _("Condominium")
-        VILLA = "Villa", _("Villa")
-        RESORT = "Resort", _("Resort")
-        CASTLE = "Castle", _("Castle")
-        BEACH_HOUSE = "Beach House", _("Beach House")
-        LUXE = "Luxe", _("Luxe")
-        CABIN = "Cabin", _("Cabin")
-        CHATEAU = "Cheateau", _("Chateau")
-        MANSION = "Mansion", _("Mansion")
-        FARM = "Farm", _("Farm")
 
     name = models.CharField(
         max_length=50,
@@ -49,11 +73,13 @@ class Room(CommonDateTimeModel, models.Model):
             "Value of price per night should always be more than 1 no matter of currency."
         ),
     )
-    room_type = models.CharField(
-        max_length=255,
-        choices=RoomTypeChoices.choices,
-        default=RoomTypeChoices.HOTEL,
+    room_type = models.ForeignKey(
+        "rooms.RoomType",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
         verbose_name=_("Room Type"),
+        related_name="rooms",
     )
     guest = models.PositiveSmallIntegerField(
         verbose_name=_("Maximum guests allowed"),

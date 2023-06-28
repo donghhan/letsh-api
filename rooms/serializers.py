@@ -11,10 +11,22 @@ class RoomAmenitySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class RoomTypeSerializer(serializers.ModelSerializer):
+    total_rooms = serializers.SerializerMethodField()
+
+    def get_total_rooms(self, obj):
+        return obj.total_rooms()
+
+    class Meta:
+        model = RoomType
+        fields = "__all__"
+
+
 class RoomSerializer(serializers.ModelSerializer):
     amenity = RoomAmenitySerializer(read_only=True)
     owner = RoomOwnerSerializer(read_only=True)
     category = CategorySerializer(read_only=True)
+    room_type = RoomTypeSerializer(read_only=True)
     total_reviews = serializers.SerializerMethodField()
     average_rating = serializers.SerializerMethodField()
 
@@ -31,7 +43,10 @@ class RoomSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Room
-        exclude = ["created_at", "updated_at"]
+        exclude = [
+            "created_at",
+            "updated_at",
+        ]
 
 
 class SimplifiedRoomSerializer(serializers.ModelSerializer):
