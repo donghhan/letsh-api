@@ -46,7 +46,7 @@ class RoomType(models.Model):
 
     def total_rooms(room_type):
         total_room_number = room_type.rooms.count()
-        return f"{total_room_number:,}"
+        return total_room_number
 
     def __str__(self):
         return str(self.room_type)
