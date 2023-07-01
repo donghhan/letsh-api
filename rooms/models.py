@@ -30,7 +30,7 @@ class RoomType(models.Model):
         VILLA = "villa", _("Villa")
         RESORT = "resort", _("Resort")
         CASTLE = "castle", _("Castle")
-        BEACH_HOUSE = "beach House", _("Beach House")
+        BEACH_HOUSE = "beach", _("Beach House")
         LUXE = "luxe", _("Luxe")
         CABIN = "cabin", _("Cabin")
         CHATEAU = "cheateau", _("Chateau")
