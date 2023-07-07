@@ -57,6 +57,36 @@ class RoomType(models.Model):
         db_table = "room_types"
 
 
+class RoomAddress(models.Model):
+
+    """Room Address Model Definition"""
+
+    country = models.ForeignKey(
+        "cities_light.Country",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name=_("Country"),
+        related_name="addresses",
+    )
+    city = models.ForeignKey(
+        "cities_light.City",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name=_("City"),
+        related_name="addresses",
+    )
+
+    def __str__(self):
+        return f"{self.city}, {self.country}"
+
+    class Meta:
+        verbose_name = _("Room Address")
+        verbose_name_plural = _("Room Address")
+        db_table = "room_addresses"
+
+
 class Room(CommonDateTimeModel, models.Model):
 
     """Room Model Definition"""
@@ -82,18 +112,14 @@ class Room(CommonDateTimeModel, models.Model):
         related_name="rooms",
     )
     guest = models.PositiveSmallIntegerField(
-        verbose_name=_("Maximum guests allowed"),
+        verbose_name=_("Guest"),
         validators=[MinValueValidator(1), MaxValueValidator(100)],
         help_text=_(
             "Guest should include at least one person, and not exceed more than 100 people."
         ),
     )
-    bedroom = models.PositiveSmallIntegerField(
-        verbose_name=_("Number of bedrooms"), default=1
-    )
-    bathroom = models.PositiveSmallIntegerField(
-        verbose_name=_("Number of bathrooms"), default=1
-    )
+    bedroom = models.PositiveSmallIntegerField(verbose_name=_("Bedroom"), default=1)
+    bathroom = models.PositiveSmallIntegerField(verbose_name=_("Bathroom"), default=1)
     wifi = models.BooleanField(
         verbose_name=_("Wi-Fi"),
         help_text=_("Shows if Wi-Fi is available. Default is set to be True."),
@@ -124,6 +150,14 @@ class Room(CommonDateTimeModel, models.Model):
         null=True,
         blank=True,
         related_name="rooms",
+    )
+    address = models.OneToOneField(
+        "rooms.RoomAddress",
+        verbose_name=_("Address"),
+        related_name="rooms",
+        null=True,
+        blank=True,
+        on_delete=models.DO_NOTHING,
     )
 
     def total_reviews(room):

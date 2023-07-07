@@ -22,11 +22,18 @@ class RoomTypeSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class RoomAddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RoomAddress
+        fields = "__all__"
+
+
 class RoomSerializer(serializers.ModelSerializer):
     amenity = RoomAmenitySerializer(read_only=True)
     owner = RoomOwnerSerializer(read_only=True)
     category = CategorySerializer(read_only=True)
     room_type = RoomTypeSerializer(read_only=True)
+    address = serializers.CharField(source="address.city", read_only=True)
     total_reviews = serializers.SerializerMethodField()
     average_rating = serializers.SerializerMethodField()
 
@@ -50,13 +57,24 @@ class RoomSerializer(serializers.ModelSerializer):
 
 
 class SimplifiedRoomSerializer(serializers.ModelSerializer):
+    average_rating = serializers.SerializerMethodField()
+
     class Meta:
         model = Room
         fields = [
             "pk",
             "name",
             "price_per_night",
+            "average_rating",
         ]
+
+    def get_average_rating(self, obj):
+        reviews = obj.reviews.all()
+        if reviews.exists():
+            total_rating = sum([review.average_rating() for review in reviews])
+            average_rating = total_rating / len(reviews)
+            return round(average_rating, 2)
+        return None
 
 
 class RoomPhotoSerializer(serializers.ModelSerializer):

@@ -6,7 +6,9 @@ router = SimpleRouter()
 
 router.register(r"", views.CategoryViewset, basename="room_categories")
 
-urlpatterns = [path("<int:pk>/rooms", views.SimplifiedRoomByCategories.as_view())]
+urlpatterns = [
+    path("<int:pk>/rooms/", views.SimplifiedRoomByCategories.as_view()),
+]
 
 
 urlpatterns = router.urls + urlpatterns

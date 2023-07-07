@@ -53,7 +53,7 @@ THIRDPARTY_APPS = [
     "rest_framework",
     "drf_yasg",
     "corsheaders",
-    "rest_framework_simplejwt",  # For i18n
+    "rest_framework_simplejwt",
 ]
 
 PROJECT_APPS = [

@@ -17,6 +17,7 @@ class RoomAdmin(admin.ModelAdmin):
         "wifi",
         "owner",
         "total_reviews",
+        "category",
     )
 
     fieldsets = [
@@ -43,6 +44,22 @@ class RoomAdmin(admin.ModelAdmin):
                 ]
             },
         ),
+        (
+            "Category",
+            {
+                "fields": [
+                    "category",
+                ]
+            },
+        ),
+        (
+            "Location",
+            {
+                "fields": [
+                    "address",
+                ]
+            },
+        ),
     ]
     list_filter = ("room_type", "wifi")
     search_fields = ("name",)
@@ -60,3 +77,15 @@ class RoomTypeAdmin(admin.ModelAdmin):
         "room_type",
         "total_rooms",
     )
+
+
+@admin.register(RoomAddress)
+class RoomAddressAdmin(admin.ModelAdmin):
+    empty_value_display = "-----"
+    list_display = (
+        "country",
+        "city",
+    )
+    raw_id_fields = [
+        "city",
+    ]

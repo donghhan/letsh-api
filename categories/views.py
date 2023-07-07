@@ -10,9 +10,11 @@ from rooms.serializers import SimplifiedRoomSerializer
 from common.permissions import IsAdminOrReadOnly
 
 
-class CategoryViewset(viewsets.ModelViewSet):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+class CategoryViewset(viewsets.ViewSet):
+    def list(self, request):
+        queryset = Category.objects.all()
+        serializer = CategorySerializer(queryset, many=True)
+        return Response(serializer.data, status=HTTP_200_OK)
 
 
 class SimplifiedRoomByCategories(views.APIView):
