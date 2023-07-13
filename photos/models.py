@@ -1,15 +1,14 @@
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from common.models import CommonDateTimeModel
 
 
-class RoomPhoto(models.Model):
+class RoomPhoto(CommonDateTimeModel):
 
     """Room Photo Model Definition"""
 
-    photo = models.URLField(verbose_name=_("Photo"))
+    photo = models.URLField(verbose_name=_("Photo"), null=True, blank=True)
+    thumbnail = models.URLField(verbose_name=_("Thumbnail Image"))
     room = models.ForeignKey(
         "rooms.Room",
         on_delete=models.CASCADE,
@@ -20,7 +19,7 @@ class RoomPhoto(models.Model):
     )
 
     def __str__(self):
-        return str(self.photo)
+        return str(f"{self.room.name}'s photos")
 
     class Meta:
         verbose_name = "Photo for room"
