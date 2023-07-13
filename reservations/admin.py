@@ -21,7 +21,6 @@ class ReservationAdmin(admin.ModelAdmin):
     readonly_fields = [
         "reservation_id",
         "reservation_created_time",
-        "room",
     ]
     fieldsets = [
         (
