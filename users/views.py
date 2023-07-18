@@ -1,3 +1,6 @@
+import os
+import requests
+from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from rest_framework import views, status, viewsets
 from rest_framework.response import Response
@@ -27,7 +30,7 @@ class MyProfileView(views.APIView):
             return Response(serializer.errors)
 
 
-class UserView(views.APIView):
+class SignupView(views.APIView):
     def post(self, request):
         password = request.data.get("password")
 
@@ -97,3 +100,31 @@ class LogoutView(views.APIView):
     def post(self, request):
         logout(request)
         return Response({"ok": "Logged out successfully"})
+
+
+class SignupView(views.APIView):
+    def post(self, request):
+        pass
+
+
+class LineLoginView(views.APIView):
+    def post(self, request):
+        code = request.data.get("code")
+        # client_id = str(os.environ.get("LINE_OAUTH_CLIENT_ID"))
+        # client_secret = str(os.environ.get("LINE_OAUTH_CLIENT_SECRET"))
+        access_token = (
+            requests.post(
+                f"https://api.line.me/oauth2/v2.1/token?code={code}&client_id={settings.LINE_OAUTH_CLIENT_ID}&client_secret={settings.LINE_OAUTH_CLIENT_SECRET}&grant_type=authorization_code&redirect_uri=http://127.0.0.1:5173",
+                headers={"Content-Type": "application/x-www-form-urlencoded"},
+            )
+            .json()
+            .get("access_token")
+        )
+
+        user_info = requests.get(
+            f"https://api.line.me/oauth2/v2.1/userinfo",
+            headers={
+                "Authorization": f"Bearer {access_token}",
+                "Accept": "application/json",
+            },
+        ).json()
