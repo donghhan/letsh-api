@@ -25,6 +25,7 @@ class User(AbstractUser):
     profile_picture = models.URLField(
         null=True, blank=True, verbose_name=_("Profile picture")
     )
+    is_owner = models.BooleanField(default=False, verbose_name=_("Is Host?"))
 
     def __str__(self):
         return str(self.username)

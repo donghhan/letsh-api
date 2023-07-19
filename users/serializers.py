@@ -12,6 +12,7 @@ class PrivateMyProfileSerializer(serializers.ModelSerializer):
             "email",
             "mobile_number",
             "sex",
+            "is_owner",
             "profile_picture",
         ]
 
@@ -24,4 +25,5 @@ class RoomOwnerSerializer(serializers.ModelSerializer):
             "username",
             "email",
             "first_name",
+            "is_owner",
         ]
