@@ -66,8 +66,9 @@ class RoomView(views.APIView):
             raise NotAuthenticated
 
 
-class SimplifiedRoomForHomePage(generics.ListAPIView):
-    pass
+class TopPlaceRoomsView(generics.ListAPIView):
+    def get(self, request):
+        pass
 
 
 class RoomDetailView(views.APIView):

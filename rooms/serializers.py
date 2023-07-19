@@ -35,15 +35,15 @@ class RoomSerializer(serializers.ModelSerializer):
     room_type = RoomTypeSerializer(read_only=True)
     address = serializers.CharField(source="address.city", read_only=True)
     total_reviews = serializers.SerializerMethodField()
-    average_rating = serializers.SerializerMethodField()
+    average_total_rating = serializers.SerializerMethodField()
 
     def get_total_reviews(self, obj):
         return obj.total_reviews()
 
-    def get_average_rating(self, obj):
+    def get_average_total_rating(self, obj):
         reviews = obj.reviews.all()
         if reviews.exists():
-            total_rating = sum([review.average_rating() for review in reviews])
+            total_rating = sum([review.average_total_rating() for review in reviews])
             average_rating = total_rating / len(reviews)
             return round(average_rating, 2)
         return None

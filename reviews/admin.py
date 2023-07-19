@@ -54,7 +54,10 @@ class ReviewAdmin(admin.ModelAdmin):
         ),
         (
             "Evaluation",
-            {"fields": ["average_rating", "comment"], "classes": "wide"},
+            {
+                "fields": ["average_total_rating", "comment", "customer"],
+                "classes": "wide",
+            },
         ),
         (
             "Individual Scores",
@@ -69,6 +72,19 @@ class ReviewAdmin(admin.ModelAdmin):
                 ]
             },
         ),
+        (
+            "Average Scores",
+            {
+                "fields": [
+                    "average_cleanliness",
+                    "average_accuracy",
+                    "average_location",
+                    "average_communication",
+                    "average_check_in",
+                    "average_value",
+                ],
+            },
+        ),
     ]
     list_display = (
         "room",
@@ -79,7 +95,7 @@ class ReviewAdmin(admin.ModelAdmin):
         "communication",
         "check_in",
         "value",
-        "average_rating",
+        "average_total_rating",
         "comment",
     )
     list_display_links = ("room",)
@@ -88,15 +104,23 @@ class ReviewAdmin(admin.ModelAdmin):
     search_fields = ("room__name", "customer__username")
     search_help_text = _("Searchable by room name and user ID.")
     readonly_fields = (
-        "room",
-        "customer",
-        "average_rating",
+        "average_total_rating",
+        "average_cleanliness",
+        "average_accuracy",
+        "average_location",
+        "average_communication",
+        "average_check_in",
+        "average_value",
     )
 
-    @admin.display(ordering="book__author", description="Author")
+    @admin.display(description="Customer review")
     def get_customer_username(self, obj):
-        return obj.book.author
+        return obj.customer.name
+
+    @admin.display(description=_("Average Cleanliness Score"))
+    def get_average_cleanliness(self, obj):
+        pass
 
     def get_average_score(self, obj):
         print(obj.get_average_rating)
-        return
+        return obj.get_average_rating
