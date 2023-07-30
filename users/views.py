@@ -102,11 +102,6 @@ class LogoutView(views.APIView):
         return Response({"ok": "Logged out successfully"})
 
 
-class SignupView(views.APIView):
-    def post(self, request):
-        pass
-
-
 class LineLoginView(views.APIView):
     def post(self, request):
         code = request.data.get("code")
