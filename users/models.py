@@ -13,6 +13,7 @@ class User(AbstractUser):
         FEMALE = "Female", _("Female")
         UNKNOWN = "Unknown", _("Unknown")
 
+    # username = models.CharField(max_length=16, verbose_name=_("Username"))
     mobile_number = models.CharField(
         max_length=128, verbose_name=_("Mobile Number"), null=True, blank=True
     )
