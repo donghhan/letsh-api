@@ -1,11 +1,10 @@
-import os
 import requests
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
-from rest_framework import views, status, viewsets
+from rest_framework import views, status, generics
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.exceptions import ParseError
+from rest_framework.exceptions import ParseError, NotFound
 from .models import User
 from .serializers import *
 
@@ -123,3 +122,37 @@ class LineLoginView(views.APIView):
                 "Accept": "application/json",
             },
         ).json()
+
+
+class CheckExistingUsernameView(views.APIView):
+    def get(self, request):
+        username = request.query_params.get("username", None)
+
+        if not username:
+            return Response(
+                {"error": "Username parameter is missing"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            user = User.objects.get(username=username)
+            return Response({"usernameExists": True})
+        except User.DoesNotExist:
+            return Response({"usernameExists": False})
+
+
+class CheckExistingEmailView(views.APIView):
+    def get(self, request):
+        email = request.query_params.get("email", None)
+
+        if not email:
+            return Response(
+                {"error": "Email parameter is missing"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            user = User.objects.get(email=email)
+            return Response({"emailExists": True})
+        except User.DoesNotExist:
+            return Response({"emailExists": False})
