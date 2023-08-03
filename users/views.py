@@ -156,3 +156,18 @@ class CheckExistingEmailView(views.APIView):
             return Response({"emailExists": True})
         except User.DoesNotExist:
             return Response({"emailExists": False})
+
+
+class CheckPasswordView(views.APIView):
+    def post(self, request):
+        username = request.data.get("username")
+        password = request.data.get("password")
+
+        try:
+            user = User.objects.get(username=username)
+            if not user.check_password(password):
+                return Response({"passwordMatch": False})
+            else:
+                return Response({"passwordMatch": True})
+        except User.DoesNotExist:
+            return Response({"passwordMatch": False})

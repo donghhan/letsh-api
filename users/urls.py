@@ -11,9 +11,14 @@ urlpatterns = [
         name="check-username",
     ),
     path(
-        "check-email",
+        "check-email/",
         views.CheckExistingEmailView.as_view(),
         name="check-email",
+    ),
+    path(
+        "check-password/",
+        views.CheckPasswordView.as_view(),
+        name="check-password",
     ),
     path("login/", views.LoginView.as_view()),
     path("logout", views.LogoutView.as_view()),
